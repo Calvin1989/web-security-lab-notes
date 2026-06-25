@@ -57,6 +57,7 @@
 | 08 | SSRF 服务端请求伪造  | Pikachu | [08-ssrf.md](reports/08-ssrf.md)                               |
 | 09 | CSRF 跨站请求伪造 | Pikachu | [09-csrf.md](reports/09-csrf.md) |
 | 10 | XXE XML 外部实体注入 | Pikachu | [10-xxe.md](reports/10-xxe.md) |
+| 11 | PHP 反序列化漏洞 | Pikachu | [11-deserialization.md](reports/11-deserialization.md) |
 
 ## 截图证据目录
 
@@ -72,6 +73,7 @@
 | SSRF   | `screenshots/ssrf/`                |
 | CSRF | `screenshots/csrf/` |
 | XXE | `screenshots/xxe/` |
+| PHP 反序列化 | `screenshots/deserialization/` |
 
 ## 报告格式
 
