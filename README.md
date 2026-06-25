@@ -42,6 +42,7 @@
 | [简历项目描述](summary/resume-project.md) | 用于简历中的项目描述、项目职责和技术栈 |
 | [Web 漏洞修复建议速查表](notes/remediation-cheatsheet.md) | 汇总 11 类漏洞的常见修复建议 |
 | [Web 攻击日志表现与告警建议速查表](notes/log-detection-cheatsheet.md) | 汇总常见 Web 攻击在日志中的表现和基础告警建议 |
+| GitHub 项目展示说明 | [summary/github-showcase.md](summary/github-showcase.md) |
 
 ## 已完成漏洞报告
 
