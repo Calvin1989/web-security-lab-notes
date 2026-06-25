@@ -118,14 +118,7 @@ Over Permission -> 水平越权
 
 
 
-```text
-
-screenshots/access-control/01-over-permission-page.png
-
-```
-
-
-
+![01-over-permission-page](../screenshots/access-control/01-over-permission-page.png)
 该页面用于模拟用户登录后查看个人资料的业务场景。
 
 
@@ -142,14 +135,7 @@ screenshots/access-control/01-over-permission-page.png
 
 
 
-```text
-
-screenshots/access-control/02-horizontal-login-user-a.png
-
-```
-
-
-
+![02-horizontal-login-user-a](../screenshots/access-control/02-horizontal-login-user-a.png)
 登录后进入个人信息中心，当前用户身份为 `lucy`。
 
 
@@ -166,14 +152,7 @@ screenshots/access-control/02-horizontal-login-user-a.png
 
 
 
-```text
-
-screenshots/access-control/03-horizontal-user-a-info.png
-
-```
-
-
-
+![03-horizontal-user-a-info](../screenshots/access-control/03-horizontal-user-a-info.png)
 该步骤说明正常情况下，当前登录用户可以查看自己的个人资料。
 
 
@@ -222,14 +201,7 @@ http://127.0.0.1/pikachu/vul/overpermission/op1/op1_mem.php?username=lili&submit
 
 
 
-```text
-
-screenshots/access-control/04-horizontal-change-userid.png
-
-```
-
-
-
+![04-horizontal-change-userid](../screenshots/access-control/04-horizontal-change-userid.png)
 这一步说明用户可以直接修改请求中的资源标识参数。
 
 
@@ -246,14 +218,7 @@ screenshots/access-control/04-horizontal-change-userid.png
 
 
 
-```text
-
-screenshots/access-control/05-horizontal-user-b-info.png
-
-```
-
-
-
+![05-horizontal-user-b-info](../screenshots/access-control/05-horizontal-user-b-info.png)
 该结果说明当前登录用户 `lucy` 可以通过修改 `username` 参数查看 `lili` 的资料，水平越权漏洞成功复现。
 
 
@@ -270,14 +235,7 @@ screenshots/access-control/05-horizontal-user-b-info.png
 
 
 
-```text
-
-screenshots/access-control/06-burp-horizontal-request.png
-
-```
-
-
-
+![06-burp-horizontal-request](../screenshots/access-control/06-burp-horizontal-request.png)
 请求中的关键内容为：
 
 
@@ -429,6 +387,7 @@ message_id
 * 复测说明：当前 Pikachu 靶场用于漏洞演示，未对源码进行实际修复。本报告根据漏洞原理给出修复建议。
 
 * 整改建议：真实业务系统应在服务端增加资源级权限校验，确保当前登录用户只能访问自己有权限的数据。
+
 
 
 

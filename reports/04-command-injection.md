@@ -160,14 +160,7 @@ Command Injection
 
 
 
-```text
-
-screenshots/command-injection/01-command-page.png
-
-```
-
-
-
+![01-command-page](../screenshots/command-injection/01-command-page.png)
 该功能属于典型命令执行测试点，因为它会调用系统命令处理用户输入。
 
 
@@ -196,14 +189,7 @@ screenshots/command-injection/01-command-page.png
 
 
 
-```text
-
-screenshots/command-injection/02-normal-ping.png
-
-```
-
-
-
+![02-normal-ping](../screenshots/command-injection/02-normal-ping.png)
 该步骤说明该功能的正常逻辑是：服务端接收用户输入的 IP 地址，并调用系统 ping 命令进行检测。
 
 
@@ -244,14 +230,7 @@ desktop-mtlpfah\\wu
 
 
 
-```text
-
-screenshots/command-injection/03-command-injection-result.png
-
-```
-
-
-
+![03-command-injection-result](../screenshots/command-injection/03-command-injection-result.png)
 该结果说明 `whoami` 命令被服务端执行，用户输入已经影响了后端系统命令执行逻辑，命令执行漏洞成功复现。
 
 
@@ -268,14 +247,7 @@ screenshots/command-injection/03-command-injection-result.png
 
 
 
-```text
-
-screenshots/command-injection/04-burp-command-request.png
-
-```
-
-
-
+![04-burp-command-request](../screenshots/command-injection/04-burp-command-request.png)
 请求中的关键内容为：
 
 
@@ -366,14 +338,7 @@ ERROR: You have entered an invalid IP.
 
 
 
-```text
-
-screenshots/command-injection/05-impossible-compare.png
-
-```
-
-
-
+![05-impossible-compare](../screenshots/command-injection/05-impossible-compare.png)
 该结果说明 Impossible 模式下服务端对输入进行了更严格的校验，只允许合法 IP 地址，原来的命令拼接方式无法继续生效。
 
 
@@ -491,6 +456,7 @@ screenshots/command-injection/05-impossible-compare.png
 * 复测说明：在 DVWA Impossible 安全等级下，输入 `127.0.0.1 & whoami` 后，系统提示 IP 非法，未执行额外系统命令。
 
 * 整改建议：真实业务系统应避免拼接系统命令，采用安全 API、输入白名单、低权限运行和日志监控等方式降低命令执行风险。
+
 
 
 

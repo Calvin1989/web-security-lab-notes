@@ -126,14 +126,7 @@ File Upload
 
 
 
-```text
-
-screenshots/file-upload/01-upload-page.png
-
-```
-
-
-
+![01-upload-page](../screenshots/file-upload/01-upload-page.png)
 该功能属于典型的文件上传测试点，需要关注以下内容：
 
 
@@ -186,14 +179,7 @@ echo "file upload test success";
 
 
 
-```text
-
-screenshots/file-upload/02-test-file-content.png
-
-```
-
-
-
+![02-test-file-content](../screenshots/file-upload/02-test-file-content.png)
 该文件只输出固定文本：
 
 
@@ -242,14 +228,7 @@ upload-test.php
 
 
 
-```text
-
-screenshots/file-upload/03-upload-success.png
-
-```
-
-
-
+![03-upload-success](../screenshots/file-upload/03-upload-success.png)
 该结果说明，在 Low 安全等级下，服务端允许上传 `.php` 文件，未对文件类型进行有效限制。
 
 
@@ -286,14 +265,7 @@ file upload test success
 
 
 
-```text
-
-screenshots/file-upload/04-access-uploaded-file.png
-
-```
-
-
-
+![04-access-uploaded-file](../screenshots/file-upload/04-access-uploaded-file.png)
 该结果说明上传的 PHP 文件不仅被保存到了服务器，而且可以通过 Web 路径访问并执行。
 
 
@@ -314,14 +286,7 @@ screenshots/file-upload/04-access-uploaded-file.png
 
 
 
-```text
-
-screenshots/file-upload/05-burp-upload-request.png
-
-```
-
-
-
+![05-burp-upload-request](../screenshots/file-upload/05-burp-upload-request.png)
 请求中的关键内容包括：
 
 
@@ -400,14 +365,7 @@ Your image was not uploaded. We can only accept JPEG or PNG images.
 
 
 
-```text
-
-screenshots/file-upload/06-impossible-compare.png
-
-```
-
-
-
+![06-impossible-compare](../screenshots/file-upload/06-impossible-compare.png)
 该结果说明 Impossible 模式下服务端对上传文件进行了更严格的限制，只允许上传指定类型的图片文件，原来的 PHP 文件上传方式不再生效。
 
 
@@ -527,6 +485,7 @@ screenshots/file-upload/06-impossible-compare.png
 * 复测说明：在 DVWA Impossible 安全等级下，再次上传 `upload-test.php` 文件时，系统提示只允许上传 JPEG 或 PNG 图片，PHP 文件无法上传成功。
 
 * 整改建议：真实业务系统应采用文件类型白名单、内容校验、文件重命名、上传目录禁止脚本执行、权限控制和安全日志记录等多层防护措施，避免文件上传漏洞。
+
 
 
 

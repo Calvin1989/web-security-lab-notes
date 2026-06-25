@@ -218,14 +218,7 @@ XSS (Reflected)
 
 
 
-```text
-
-screenshots/xss/01-reflected-page.png
-
-```
-
-
-
+![01-reflected-page](../screenshots/xss/01-reflected-page.png)
 ### 4.1.2 正常输入测试
 
 
@@ -258,14 +251,7 @@ Hello test
 
 
 
-```text
-
-screenshots/xss/02-reflected-normal-input.png
-
-```
-
-
-
+![02-reflected-normal-input](../screenshots/xss/02-reflected-normal-input.png)
 该步骤说明该功能的正常逻辑是：接收用户输入，并将输入内容回显到页面中。
 
 
@@ -294,14 +280,7 @@ screenshots/xss/02-reflected-normal-input.png
 
 
 
-```text
-
-screenshots/xss/03-reflected-xss-alert.png
-
-```
-
-
-
+![03-reflected-xss-alert](../screenshots/xss/03-reflected-xss-alert.png)
 该结果说明服务端没有将用户输入安全地当作普通文本处理，浏览器执行了输入中的 JavaScript 代码，反射型 XSS 漏洞成功复现。
 
 
@@ -318,14 +297,7 @@ screenshots/xss/03-reflected-xss-alert.png
 
 
 
-```text
-
-screenshots/xss/04-burp-reflected-xss-request.png
-
-```
-
-
-
+![04-burp-reflected-xss-request](../screenshots/xss/04-burp-reflected-xss-request.png)
 请求中的关键参数为：
 
 
@@ -388,14 +360,7 @@ Cookie: PHPSESSID=***; security=low
 
 
 
-```text
-
-screenshots/xss/05-impossible-compare.png
-
-```
-
-
-
+![05-impossible-compare](../screenshots/xss/05-impossible-compare.png)
 在 Impossible 模式下，页面没有弹窗，而是将脚本内容作为普通文本显示，说明服务端对输出内容进行了安全处理，浏览器没有继续把用户输入当作脚本执行。
 
 
@@ -432,14 +397,7 @@ XSS (Stored)
 
 
 
-```text
-
-screenshots/xss/06-stored-page.png
-
-```
-
-
-
+![06-stored-page](../screenshots/xss/06-stored-page.png)
 ### 4.2.2 正常留言测试
 
 
@@ -466,14 +424,7 @@ Message: hello
 
 
 
-```text
-
-screenshots/xss/07-stored-normal-message.png
-
-```
-
-
-
+![07-stored-normal-message](../screenshots/xss/07-stored-normal-message.png)
 该步骤说明该功能的正常逻辑是：用户提交留言后，服务端会保存留言内容，并在页面中展示。
 
 
@@ -504,14 +455,7 @@ Message: <script>alert('stored-xss')</script>
 
 
 
-```text
-
-screenshots/xss/08-stored-xss-submit.png
-
-```
-
-
-
+![08-stored-xss-submit](../screenshots/xss/08-stored-xss-submit.png)
 该结果说明留言内容中的脚本被浏览器执行，存储型 XSS 初步触发成功。
 
 
@@ -528,14 +472,7 @@ screenshots/xss/08-stored-xss-submit.png
 
 
 
-```text
-
-screenshots/xss/09-stored-xss-alert.png
-
-```
-
-
-
+![09-stored-xss-alert](../screenshots/xss/09-stored-xss-alert.png)
 该结果说明恶意脚本已经被保存到数据库中。只要页面再次加载留言内容，浏览器就会执行保存下来的脚本。
 
 
@@ -566,14 +503,7 @@ screenshots/xss/09-stored-xss-alert.png
 
 
 
-```text
-
-screenshots/xss/10-burp-stored-xss-request.png
-
-```
-
-
-
+![10-burp-stored-xss-request](../screenshots/xss/10-burp-stored-xss-request.png)
 请求中的关键内容为：
 
 
@@ -642,14 +572,7 @@ Message: <script>alert('stored-xss')</script>
 
 
 
-```text
-
-screenshots/xss/11-stored-impossible-compare.png
-
-```
-
-
-
+![11-stored-impossible-compare](../screenshots/xss/11-stored-impossible-compare.png)
 在 Impossible 模式下，页面将脚本内容作为普通文本显示，没有执行 JavaScript。说明服务端对留言内容进行了安全处理，避免浏览器将用户输入当作脚本执行。
 
 
@@ -779,6 +702,7 @@ XSS 漏洞可能造成以下影响：
 * 复测说明：在 DVWA Impossible 安全等级下，反射型 XSS 和存储型 XSS 的测试输入均未被浏览器当作 JavaScript 执行，页面将脚本内容作为普通文本显示。
 
 * 整改建议：真实业务系统应在服务端对用户输入进行校验，并在输出到页面时进行上下文相关的安全编码，同时配合 CSP、HttpOnly Cookie 和安全日志监控降低 XSS 风险。
+
 
 
 

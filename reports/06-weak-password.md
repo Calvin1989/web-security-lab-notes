@@ -120,14 +120,7 @@ Brute Force
 
 
 
-```text
-
-screenshots/weak-password/01-brute-force-page.png
-
-```
-
-
-
+![01-brute-force-page](../screenshots/weak-password/01-brute-force-page.png)
 该功能属于典型登录认证测试点，需要关注以下内容：
 
 
@@ -172,14 +165,7 @@ Password: 123456
 
 
 
-```text
-
-screenshots/weak-password/02-wrong-password-result.png
-
-```
-
-
-
+![02-wrong-password-result](../screenshots/weak-password/02-wrong-password-result.png)
 该步骤说明系统可以识别错误密码，但在 Low 模式下没有出现验证码、锁定或明显的登录频率限制。
 
 
@@ -218,14 +204,7 @@ Welcome to the password protected area admin
 
 
 
-```text
-
-screenshots/weak-password/03-success-login-result.png
-
-```
-
-
-
+![03-success-login-result](../screenshots/weak-password/03-success-login-result.png)
 该结果说明本地靶场存在默认弱口令 `admin/password`，可以登录成功。
 
 
@@ -246,14 +225,7 @@ screenshots/weak-password/03-success-login-result.png
 
 
 
-```text
-
-screenshots/weak-password/04-burp-login-request.png
-
-```
-
-
-
+![04-burp-login-request](../screenshots/weak-password/04-burp-login-request.png)
 请求中的关键内容为：
 
 
@@ -316,14 +288,7 @@ password
 
 
 
-```text
-
-screenshots/weak-password/05-repeater-password-test.png
-
-```
-
-
-
+![05-repeater-password-test](../screenshots/weak-password/05-repeater-password-test.png)
 该步骤说明登录请求可以被手工重放，并通过修改 `password` 参数测试不同密码。Low 模式下没有明显的失败次数限制、验证码或请求频率限制。
 
 
@@ -344,14 +309,7 @@ screenshots/weak-password/05-repeater-password-test.png
 
 
 
-```text
-
-screenshots/weak-password/06-impossible-compare.png
-
-```
-
-
-
+![06-impossible-compare](../screenshots/weak-password/06-impossible-compare.png)
 在 Impossible 模式下，页面出现更严格的失败提示，例如账号可能因多次失败登录被锁定，需要等待后再次尝试。这说明安全模式下增加了登录防护逻辑，不能像 Low 模式一样简单反复尝试密码。
 
 
@@ -471,6 +429,7 @@ screenshots/weak-password/06-impossible-compare.png
 * 复测说明：在 DVWA Impossible 安全等级下，错误登录后出现更严格的失败限制提示，说明系统增加了防暴力破解机制。
 
 * 整改建议：真实业务系统应结合强密码策略、失败次数限制、IP 限速、账号锁定、多因素认证和安全日志告警，降低弱口令和暴力破解风险。
+
 
 
 

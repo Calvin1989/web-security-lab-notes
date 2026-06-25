@@ -82,10 +82,7 @@ SQL 注入漏洞产生的根本原因是服务端将用户输入直接拼接进 
 
 
 
-`screenshots/sql-injection/01-sql-injection-page.png`
-
-
-
+![01-sql-injection-page](../screenshots/sql-injection/01-sql-injection-page.png)
 ### 4.2 正常业务请求
 
 
@@ -110,10 +107,7 @@ SQL 注入漏洞产生的根本原因是服务端将用户输入直接拼接进 
 
 
 
-`screenshots/sql-injection/02-normal-query.png`
-
-
-
+![02-normal-query](../screenshots/sql-injection/02-normal-query.png)
 该步骤说明该功能的正常业务逻辑是：根据用户输入的 ID 查询对应用户信息。
 
 
@@ -142,10 +136,7 @@ SQL 注入漏洞产生的根本原因是服务端将用户输入直接拼接进 
 
 
 
-`screenshots/sql-injection/03-error-based-test.png`
-
-
-
+![03-error-based-test](../screenshots/sql-injection/03-error-based-test.png)
 该结果说明用户输入被带入了后端 SQL 查询语句，并且异常输入影响了 SQL 语句结构。
 
 
@@ -174,10 +165,7 @@ SQL 注入漏洞产生的根本原因是服务端将用户输入直接拼接进 
 
 
 
-`screenshots/sql-injection/04-sqli-result.png`
-
-
-
+![04-sqli-result](../screenshots/sql-injection/04-sqli-result.png)
 该结果说明用户输入改变了原有 SQL 查询逻辑，SQL 注入漏洞成功复现。
 
 
@@ -194,10 +182,7 @@ SQL 注入漏洞产生的根本原因是服务端将用户输入直接拼接进 
 
 
 
-`screenshots/sql-injection/05-burp-normal-request.png`
-
-
-
+![05-burp-normal-request](../screenshots/sql-injection/05-burp-normal-request.png)
 正常请求中的关键参数为：
 
 
@@ -220,10 +205,7 @@ SQL 注入请求截图：
 
 
 
-`screenshots/sql-injection/06-burp-sqli-request.png`
-
-
-
+![06-burp-sqli-request](../screenshots/sql-injection/06-burp-sqli-request.png)
 请求中的关键参数为：
 
 
@@ -274,10 +256,7 @@ Cookie: PHPSESSID=***; security=low
 
 
 
-`screenshots/sql-injection/07-impossible-compare.png`
-
-
-
+![07-impossible-compare](../screenshots/sql-injection/07-impossible-compare.png)
 在 Impossible 模式下，同样的输入未能返回多条用户记录，说明该模式下服务端已经对用户输入进行了更严格的处理，原有注入方式不再生效。
 
 
@@ -389,6 +368,7 @@ SQL 注入漏洞可能造成以下影响：
 * 复测说明：在 DVWA Impossible 安全等级下，使用相同 SQL 注入测试输入后，未能返回多条用户记录，说明服务端已对输入和查询逻辑进行了更严格处理。
 
 * 整改建议：真实业务系统应使用参数化查询、输入白名单校验、最小权限数据库账号和统一错误处理机制，避免 SQL 注入风险。
+
 
 
 
