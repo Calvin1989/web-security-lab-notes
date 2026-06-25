@@ -1,20 +1,16 @@
-\# Web 常见漏洞复现与安全评估实践
+\# Web 常见漏洞复现与修复实践
 
 
 
-\## 项目简介
+\## 项目说明
 
 
 
-本项目基于本地授权靶场环境，对 Web 应用中常见安全漏洞进行复现、分析和修复总结。项目覆盖 SQL 注入、XSS、文件上传、命令执行、目录遍历、弱口令、越权漏洞、SSRF 等常见 Web 安全问题。
+本仓库用于记录 Web 常见漏洞的本地授权靶场复现过程、漏洞原理分析、风险影响和修复建议。
 
 
 
-\## 合规声明
-
-
-
-本仓库仅用于本地授权靶场学习，所有测试均在 DVWA、Pikachu、Vulhub、PortSwigger Web Security Academy 等合法环境中完成，不涉及任何真实互联网目标测试。
+所有测试均在 DVWA、Pikachu 等本地授权靶场环境中完成，仅用于安全学习、漏洞理解和报告编写练习，不涉及任何真实业务系统、公网目标或未授权测试。
 
 
 
@@ -22,59 +18,89 @@
 
 
 
-\- 理解常见 Web 漏洞的产生原因；
-
-\- 掌握 Burp Suite 抓包、改包和 HTTP 请求分析方法；
-
-\- 能够完成漏洞复现、证据截图、风险分析和修复建议；
-
-\- 形成安全服务/渗透测试实习可展示的项目报告合集。
+通过本项目，系统复现和总结常见 Web 安全漏洞，形成标准化漏洞复现报告，提升以下能力：
 
 
 
-\## 实验环境
+\- Web 漏洞原理理解；
+
+\- Burp Suite 抓包与请求分析；
+
+\- 漏洞复现证据整理；
+
+\- 风险影响分析；
+
+\- 安全修复建议编写；
+
+\- 安全服务报告交付意识。
 
 
 
-\- Windows
-
-\- Docker
-
-\- DVWA
-
-\- Pikachu
-
-\- Burp Suite Community
-
-\- Chrome / Firefox
-
-\- Markdown
+\## 复现环境
 
 
 
-\## 第一阶段漏洞清单
+\- 操作系统：Windows
+
+\- Web 环境：小皮面板 / PHP / MySQL
+
+\- 靶场环境：DVWA、Pikachu
+
+\- 辅助工具：Chrome、Burp Suite
+
+\- 测试方式：本地授权靶场测试
 
 
 
-| 编号 | 漏洞类型 | 报告文件 |
+\## 已完成漏洞报告
 
-|---|---|---|
 
-| 01 | SQL 注入 | reports/01-sql-injection.md |
 
-| 02 | XSS | reports/02-xss.md |
+| 序号 | 漏洞类型 | 靶场 | 报告 |
 
-| 03 | 文件上传漏洞 | reports/03-file-upload.md |
+|---|---|---|---|
 
-| 04 | 命令执行漏洞 | reports/04-command-injection.md |
+| 01 | SQL 注入 | DVWA | \[01-sql-injection.md](reports/01-sql-injection.md) |
 
-| 05 | 目录遍历 / 任意文件读取 | reports/05-directory-traversal.md |
+| 02 | XSS | DVWA | \[02-xss.md](reports/02-xss.md) |
 
-| 06 | 弱口令 / 暴力破解 | reports/06-weak-password.md |
+| 03 | 文件上传漏洞 | DVWA | \[03-file-upload.md](reports/03-file-upload.md) |
 
-| 07 | 越权漏洞 | reports/07-access-control.md |
+| 04 | 命令执行漏洞 | DVWA | \[04-command-injection.md](reports/04-command-injection.md) |
 
-| 08 | SSRF | reports/08-ssrf.md |
+| 05 | 目录遍历 / 任意文件读取 | DVWA | \[05-directory-traversal.md](reports/05-directory-traversal.md) |
+
+| 06 | 弱口令 / 暴力破解 | DVWA | \[06-weak-password.md](reports/06-weak-password.md) |
+
+| 07 | 水平越权漏洞 | Pikachu | \[07-access-control.md](reports/07-access-control.md) |
+
+| 08 | SSRF 服务端请求伪造 | Pikachu | \[08-ssrf.md](reports/08-ssrf.md) |
+
+
+
+\## 截图证据目录
+
+
+
+| 漏洞类型 | 截图目录 |
+
+|---|---|
+
+| SQL 注入 | `screenshots/sql-injection/` |
+
+| XSS | `screenshots/xss/` |
+
+| 文件上传 | `screenshots/file-upload/` |
+
+| 命令执行 | `screenshots/command-injection/` |
+
+| 目录遍历 | `screenshots/directory-traversal/` |
+
+| 弱口令 | `screenshots/weak-password/` |
+
+| 越权漏洞 | `screenshots/access-control/` |
+
+| SSRF | `screenshots/ssrf/` |
 
 
 
@@ -82,7 +108,7 @@
 
 
 
-每篇报告均包含以下内容：
+每篇漏洞报告均按照以下结构整理：
 
 
 
@@ -101,4 +127,16 @@
 7\. 修复建议
 
 8\. 复测结论
+
+
+
+\## 安全声明
+
+
+
+本仓库仅用于本地授权靶场学习和安全能力建设。所有测试均在 DVWA、Pikachu 等合法授权环境中完成，不涉及真实业务系统、公网目标、第三方系统或任何未授权测试。
+
+
+
+请勿将本项目中的测试方法用于未授权环境。
 
