@@ -40,7 +40,7 @@
 | [Web 系统安全评估模拟报告](summary/web-security-assessment-report.md) | 从安全服务交付角度汇总测试范围、测试方法、漏洞清单、风险分析、整改建议和安全运营视角 |
 | [项目总结](summary/project-summary.md) | 总结项目背景、完成内容、漏洞理解和后续计划 |
 | [简历项目描述](summary/resume-project.md) | 用于简历中的项目描述、项目职责和技术栈 |
-| [Web 漏洞修复建议速查表](notes/remediation-cheatsheet.md) | 汇总 8 类漏洞的常见修复建议 |
+| [Web 漏洞修复建议速查表](notes/remediation-cheatsheet.md) | 汇总 11 类漏洞的常见修复建议 |
 | [Web 攻击日志表现与告警建议速查表](notes/log-detection-cheatsheet.md) | 汇总常见 Web 攻击在日志中的表现和基础告警建议 |
 
 ## 已完成漏洞报告
