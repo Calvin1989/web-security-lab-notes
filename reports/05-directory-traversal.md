@@ -1,22 +1,22 @@
-\# Web 漏洞复现报告：目录遍历 / 任意文件读取
+﻿# Web 漏洞复现报告：目录遍历 / 任意文件读取
 
 
 
-\## 1. 漏洞概述
+## 1. 漏洞概述
 
 
 
-\* 漏洞名称：目录遍历 / 任意文件读取
+* 漏洞名称：目录遍历 / 任意文件读取
 
-\* 漏洞类型：路径校验缺陷 / 文件包含漏洞
+* 漏洞类型：路径校验缺陷 / 文件包含漏洞
 
-\* 风险等级：高
+* 风险等级：高
 
-\* 复现环境：DVWA
+* 复现环境：DVWA
 
-\* 测试方式：本地授权靶场测试
+* 测试方式：本地授权靶场测试
 
-\* 影响范围：文件预览、文件下载、日志查看、模板加载、语言包加载、帮助文档读取等根据用户输入读取文件的功能点。
+* 影响范围：文件预览、文件下载、日志查看、模板加载、语言包加载、帮助文档读取等根据用户输入读取文件的功能点。
 
 
 
@@ -28,7 +28,7 @@
 
 
 
-\## 2. 漏洞原理
+## 2. 漏洞原理
 
 
 
@@ -98,33 +98,33 @@
 
 
 
-\## 3. 复现环境
+## 3. 复现环境
 
 
 
-\* 系统环境：Windows
+* 系统环境：Windows
 
-\* Web 环境：小皮面板 / PHP / MySQL
+* Web 环境：小皮面板 / PHP / MySQL
 
-\* 靶场名称：DVWA
+* 靶场名称：DVWA
 
-\* 靶场地址：`http://127.0.0.1/dvwa`
+* 靶场地址：`http://127.0.0.1/dvwa`
 
-\* 使用工具：Chrome、Burp Suite、记事本
+* 使用工具：Chrome、Burp Suite、记事本
 
-\* 测试账号：本地靶场测试账号
+* 测试账号：本地靶场测试账号
 
-\* 漏洞模块：File Inclusion
+* 漏洞模块：File Inclusion
 
-\* 安全等级：Low / Impossible
-
-
-
-\## 4. 复现步骤
+* 安全等级：Low / Impossible
 
 
 
-\### 4.1 定位测试点
+## 4. 复现步骤
+
+
+
+### 4.1 定位测试点
 
 
 
@@ -160,7 +160,7 @@ screenshots/directory-traversal/01-file-inclusion-page.png
 
 
 
-\### 4.2 正常文件加载测试
+### 4.2 正常文件加载测试
 
 
 
@@ -196,7 +196,7 @@ screenshots/directory-traversal/02-normal-file-include.png
 
 
 
-\### 4.3 创建无害测试文件
+### 4.3 创建无害测试文件
 
 
 
@@ -240,7 +240,7 @@ screenshots/directory-traversal/03-proof-file-content.png
 
 
 
-\### 4.4 构造目录遍历读取路径
+### 4.4 构造目录遍历读取路径
 
 
 
@@ -284,7 +284,7 @@ screenshots/directory-traversal/04-directory-traversal-result.png
 
 
 
-\### 4.5 Burp Suite 抓包分析
+### 4.5 Burp Suite 抓包分析
 
 
 
@@ -312,7 +312,7 @@ screenshots/directory-traversal/05-burp-traversal-request.png
 
 GET /dvwa/vulnerabilities/fi/?page=../../hackable/uploads/read-test.txt HTTP/1.1
 
-Cookie: PHPSESSID=\*\*\*; security=low
+Cookie: PHPSESSID=***; security=low
 
 ```
 
@@ -322,7 +322,7 @@ Cookie: PHPSESSID=\*\*\*; security=low
 
 
 
-\### 4.6 Impossible 模式对比
+### 4.6 Impossible 模式对比
 
 
 
@@ -354,7 +354,7 @@ screenshots/directory-traversal/06-impossible-compare.png
 
 
 
-\## 5. 漏洞验证结果
+## 5. 漏洞验证结果
 
 
 
@@ -366,15 +366,15 @@ screenshots/directory-traversal/06-impossible-compare.png
 
 
 
-1\. 正常情况下，`page=file1.php` 可以加载指定文件；
+1. 正常情况下，`page=file1.php` 可以加载指定文件；
 
-2\. 创建无害测试文件 `read-test.txt`；
+2. 创建无害测试文件 `read-test.txt`；
 
-3\. 通过 `page=../../hackable/uploads/read-test.txt` 成功读取测试文件内容；
+3. 通过 `page=../../hackable/uploads/read-test.txt` 成功读取测试文件内容；
 
-4\. Burp Suite 抓包显示文件路径由 `page` 参数控制；
+4. Burp Suite 抓包显示文件路径由 `page` 参数控制；
 
-5\. 在 Impossible 模式下，同样路径不再返回测试文件内容。
+5. 在 Impossible 模式下，同样路径不再返回测试文件内容。
 
 
 
@@ -400,7 +400,7 @@ screenshots/directory-traversal/06-impossible-compare.png
 
 
 
-\## 6. 风险影响
+## 6. 风险影响
 
 
 
@@ -408,15 +408,15 @@ screenshots/directory-traversal/06-impossible-compare.png
 
 
 
-\* 读取服务器上的非预期文件；
+* 读取服务器上的非预期文件；
 
-\* 泄露配置文件、日志文件、源码文件；
+* 泄露配置文件、日志文件、源码文件；
 
-\* 获取数据库连接信息、密钥、Token 等敏感信息；
+* 获取数据库连接信息、密钥、Token 等敏感信息；
 
-\* 辅助攻击者了解系统目录结构；
+* 辅助攻击者了解系统目录结构；
 
-\* 与文件上传、命令执行等漏洞组合利用时扩大攻击影响。
+* 与文件上传、命令执行等漏洞组合利用时扩大攻击影响。
 
 
 
@@ -428,7 +428,7 @@ screenshots/directory-traversal/06-impossible-compare.png
 
 
 
-\## 7. 修复建议
+## 7. 修复建议
 
 
 
@@ -436,33 +436,34 @@ screenshots/directory-traversal/06-impossible-compare.png
 
 
 
-1\. 不直接使用用户传入的文件路径；
+1. 不直接使用用户传入的文件路径；
 
-2\. 使用文件 ID 与服务端文件路径进行映射，例如 `id=1` 对应固定文件；
+2. 使用文件 ID 与服务端文件路径进行映射，例如 `id=1` 对应固定文件；
 
-3\. 对可读取文件设置白名单，只允许访问明确允许的文件；
+3. 对可读取文件设置白名单，只允许访问明确允许的文件；
 
-4\. 对路径进行规范化处理，识别并拦截 `../` 等目录跳转字符；
+4. 对路径进行规范化处理，识别并拦截 `../` 等目录跳转字符；
 
-5\. 限制文件读取目录，避免跳出指定根目录；
+5. 限制文件读取目录，避免跳出指定根目录；
 
-6\. 设置最小权限，Web 服务账号不应拥有读取敏感系统文件的权限；
+6. 设置最小权限，Web 服务账号不应拥有读取敏感系统文件的权限；
 
-7\. 避免在错误信息中暴露真实服务器路径；
+7. 避免在错误信息中暴露真实服务器路径；
 
-8\. 对异常路径访问行为记录日志并配置告警。
-
-
-
-\## 8. 复测结论
+8. 对异常路径访问行为记录日志并配置告警。
 
 
 
-\* 复测结果：通过
+## 8. 复测结论
 
-\* 复测说明：在 DVWA Impossible 安全等级下，访问 `../../hackable/uploads/read-test.txt` 后不再返回测试文件内容，说明服务端对可加载文件范围进行了限制。
 
-\* 整改建议：真实业务系统应采用文件白名单、路径规范化、文件 ID 映射和最小权限原则，避免目录遍历和任意文件读取风险。
+
+* 复测结果：通过
+
+* 复测说明：在 DVWA Impossible 安全等级下，访问 `../../hackable/uploads/read-test.txt` 后不再返回测试文件内容，说明服务端对可加载文件范围进行了限制。
+
+* 整改建议：真实业务系统应采用文件白名单、路径规范化、文件 ID 映射和最小权限原则，避免目录遍历和任意文件读取风险。
+
 
 
 

@@ -1,22 +1,22 @@
-\# Web 漏洞复现报告：XSS 跨站脚本漏洞
+﻿# Web 漏洞复现报告：XSS 跨站脚本漏洞
 
 
 
-\## 1. 漏洞概述
+## 1. 漏洞概述
 
 
 
-\* 漏洞名称：XSS 跨站脚本漏洞
+* 漏洞名称：XSS 跨站脚本漏洞
 
-\* 漏洞类型：前端脚本注入 / 输出编码缺陷
+* 漏洞类型：前端脚本注入 / 输出编码缺陷
 
-\* 风险等级：中危
+* 风险等级：中危
 
-\* 复现环境：DVWA
+* 复现环境：DVWA
 
-\* 测试方式：本地授权靶场测试
+* 测试方式：本地授权靶场测试
 
-\* 影响范围：搜索框、留言板、评论区、用户昵称、个人资料、后台公告等存在用户输入并回显到页面的功能点。
+* 影响范围：搜索框、留言板、评论区、用户昵称、个人资料、后台公告等存在用户输入并回显到页面的功能点。
 
 
 
@@ -24,9 +24,9 @@
 
 
 
-1\. 反射型 XSS；
+1. 反射型 XSS；
 
-2\. 存储型 XSS。
+2. 存储型 XSS。
 
 
 
@@ -34,7 +34,7 @@
 
 
 
-\## 2. 漏洞原理
+## 2. 漏洞原理
 
 
 
@@ -82,7 +82,7 @@ Hello test
 
 
 
-\### 2.1 反射型 XSS 原理
+### 2.1 反射型 XSS 原理
 
 
 
@@ -98,15 +98,15 @@ Hello test
 
 攻击者构造带脚本的 URL
 
-&#x20;       ↓
+↓
 
 用户点击 URL
 
-&#x20;       ↓
+↓
 
 服务端把参数原样返回到页面
 
-&#x20;       ↓
+↓
 
 浏览器执行脚本
 
@@ -118,7 +118,7 @@ Hello test
 
 
 
-\### 2.2 存储型 XSS 原理
+### 2.2 存储型 XSS 原理
 
 
 
@@ -134,19 +134,19 @@ Hello test
 
 攻击者提交带脚本的留言
 
-&#x20;       ↓
+↓
 
 网站把留言保存到数据库
 
-&#x20;       ↓
+↓
 
 其他用户或管理员打开留言页面
 
-&#x20;       ↓
+↓
 
 页面输出留言内容
 
-&#x20;       ↓
+↓
 
 浏览器执行脚本
 
@@ -158,43 +158,43 @@ Hello test
 
 
 
-\## 3. 复现环境
+## 3. 复现环境
 
 
 
-\* 系统环境：Windows
+* 系统环境：Windows
 
-\* Web 环境：小皮面板 / PHP / MySQL
+* Web 环境：小皮面板 / PHP / MySQL
 
-\* 靶场名称：DVWA
+* 靶场名称：DVWA
 
-\* 靶场地址：`http://127.0.0.1/dvwa`
+* 靶场地址：`http://127.0.0.1/dvwa`
 
-\* 使用工具：Chrome、Burp Suite
+* 使用工具：Chrome、Burp Suite
 
-\* 测试账号：本地靶场测试账号
+* 测试账号：本地靶场测试账号
 
-\* 漏洞模块：
-
-
-
-&#x20; \* `XSS (Reflected)`
-
-&#x20; \* `XSS (Stored)`
-
-\* 安全等级：Low / Impossible
+* 漏洞模块：
 
 
 
-\## 4. 复现步骤
+* `XSS (Reflected)`
+
+* `XSS (Stored)`
+
+* 安全等级：Low / Impossible
 
 
 
-\## 4.1 反射型 XSS 复现
+## 4. 复现步骤
 
 
 
-\### 4.1.1 定位测试点
+## 4.1 反射型 XSS 复现
+
+
+
+### 4.1.1 定位测试点
 
 
 
@@ -226,7 +226,7 @@ screenshots/xss/01-reflected-page.png
 
 
 
-\### 4.1.2 正常输入测试
+### 4.1.2 正常输入测试
 
 
 
@@ -270,7 +270,7 @@ screenshots/xss/02-reflected-normal-input.png
 
 
 
-\### 4.1.3 构造 XSS 测试输入
+### 4.1.3 构造 XSS 测试输入
 
 
 
@@ -306,7 +306,7 @@ screenshots/xss/03-reflected-xss-alert.png
 
 
 
-\### 4.1.4 Burp Suite 抓包分析
+### 4.1.4 Burp Suite 抓包分析
 
 
 
@@ -332,9 +332,9 @@ screenshots/xss/04-burp-reflected-xss-request.png
 
 ```http
 
-GET /dvwa/vulnerabilities/xss\_r/?name=%3Cscript%3Ealert%28%27xss%27%29%3C%2Fscript%3E HTTP/1.1
+GET /dvwa/vulnerabilities/xss_r/?name=%3Cscript%3Ealert%28%27xss%27%29%3C%2Fscript%3E HTTP/1.1
 
-Cookie: PHPSESSID=\*\*\*; security=low
+Cookie: PHPSESSID=***; security=low
 
 ```
 
@@ -368,7 +368,7 @@ Cookie: PHPSESSID=\*\*\*; security=low
 
 
 
-\### 4.1.5 Impossible 模式对比
+### 4.1.5 Impossible 模式对比
 
 
 
@@ -400,15 +400,15 @@ screenshots/xss/05-impossible-compare.png
 
 
 
-\---
+---
 
 
 
-\## 4.2 存储型 XSS 复现
+## 4.2 存储型 XSS 复现
 
 
 
-\### 4.2.1 定位测试点
+### 4.2.1 定位测试点
 
 
 
@@ -440,7 +440,7 @@ screenshots/xss/06-stored-page.png
 
 
 
-\### 4.2.2 正常留言测试
+### 4.2.2 正常留言测试
 
 
 
@@ -478,7 +478,7 @@ screenshots/xss/07-stored-normal-message.png
 
 
 
-\### 4.2.3 构造存储型 XSS 输入
+### 4.2.3 构造存储型 XSS 输入
 
 
 
@@ -516,7 +516,7 @@ screenshots/xss/08-stored-xss-submit.png
 
 
 
-\### 4.2.4 刷新页面验证存储效果
+### 4.2.4 刷新页面验证存储效果
 
 
 
@@ -554,7 +554,7 @@ screenshots/xss/09-stored-xss-alert.png
 
 
 
-\### 4.2.5 Burp Suite 抓包分析
+### 4.2.5 Burp Suite 抓包分析
 
 
 
@@ -580,13 +580,13 @@ screenshots/xss/10-burp-stored-xss-request.png
 
 ```http
 
-POST /dvwa/vulnerabilities/xss\_s/ HTTP/1.1
+POST /dvwa/vulnerabilities/xss_s/ HTTP/1.1
 
-Cookie: PHPSESSID=\*\*\*; security=low
+Cookie: PHPSESSID=***; security=low
 
 
 
-txtName=xss\&mtxMessage=%3Cscript%3Ealert%28%27stored-xss%27%29%3C%2Fscript%3E\&btnSign=Sign+Guestbook
+txtName=xss&mtxMessage=%3Cscript%3Ealert%28%27stored-xss%27%29%3C%2Fscript%3E&btnSign=Sign+Guestbook
 
 ```
 
@@ -620,7 +620,7 @@ txtName=xss\&mtxMessage=%3Cscript%3Ealert%28%27stored-xss%27%29%3C%2Fscript%3E\&
 
 
 
-\### 4.2.6 Impossible 模式对比
+### 4.2.6 Impossible 模式对比
 
 
 
@@ -654,7 +654,7 @@ screenshots/xss/11-stored-impossible-compare.png
 
 
 
-\## 5. 漏洞验证结果
+## 5. 漏洞验证结果
 
 
 
@@ -666,21 +666,21 @@ XSS 漏洞成功复现。
 
 
 
-1\. 反射型 XSS 中，普通输入 `test` 被正常回显；
+1. 反射型 XSS 中，普通输入 `test` 被正常回显；
 
-2\. 反射型 XSS 中，输入 `<script>alert('xss')</script>` 后浏览器弹窗；
+2. 反射型 XSS 中，输入 `<script>alert('xss')</script>` 后浏览器弹窗；
 
-3\. Burp Suite 抓包显示脚本内容通过 `name` 参数提交到服务端；
+3. Burp Suite 抓包显示脚本内容通过 `name` 参数提交到服务端；
 
-4\. 存储型 XSS 中，普通留言可以正常保存和显示；
+4. 存储型 XSS 中，普通留言可以正常保存和显示；
 
-5\. 存储型 XSS 中，留言内容包含脚本时，浏览器执行了脚本；
+5. 存储型 XSS 中，留言内容包含脚本时，浏览器执行了脚本；
 
-6\. 刷新 Stored XSS 页面后仍然触发弹窗，说明脚本已经被保存；
+6. 刷新 Stored XSS 页面后仍然触发弹窗，说明脚本已经被保存；
 
-7\. Burp Suite 抓包显示脚本内容通过 `mtxMessage` 参数提交；
+7. Burp Suite 抓包显示脚本内容通过 `mtxMessage` 参数提交；
 
-8\. 在 Impossible 模式下，同样输入被作为普通文本处理，未继续执行脚本。
+8. 在 Impossible 模式下，同样输入被作为普通文本处理，未继续执行脚本。
 
 
 
@@ -716,7 +716,7 @@ XSS 漏洞成功复现。
 
 
 
-\## 6. 风险影响
+## 6. 风险影响
 
 
 
@@ -724,17 +724,17 @@ XSS 漏洞可能造成以下影响：
 
 
 
-\* 在用户浏览器中执行恶意 JavaScript；
+* 在用户浏览器中执行恶意 JavaScript；
 
-\* 篡改页面内容，影响用户判断；
+* 篡改页面内容，影响用户判断；
 
-\* 构造伪造表单，诱导用户提交敏感信息；
+* 构造伪造表单，诱导用户提交敏感信息；
 
-\* 在用户登录状态下发起非预期请求；
+* 在用户登录状态下发起非预期请求；
 
-\* 结合其他漏洞进一步扩大攻击影响；
+* 结合其他漏洞进一步扩大攻击影响；
 
-\* 存储型 XSS 可能影响所有访问相关页面的用户或管理员。
+* 存储型 XSS 可能影响所有访问相关页面的用户或管理员。
 
 
 
@@ -742,7 +742,7 @@ XSS 漏洞可能造成以下影响：
 
 
 
-\## 7. 修复建议
+## 7. 修复建议
 
 
 
@@ -750,35 +750,36 @@ XSS 漏洞可能造成以下影响：
 
 
 
-1\. 对所有输出到 HTML 页面中的用户输入进行 HTML 实体编码；
+1. 对所有输出到 HTML 页面中的用户输入进行 HTML 实体编码；
 
-2\. 根据不同输出位置采用不同编码方式，例如 HTML 正文、HTML 属性、JavaScript 字符串、URL 参数需要分别处理；
+2. 根据不同输出位置采用不同编码方式，例如 HTML 正文、HTML 属性、JavaScript 字符串、URL 参数需要分别处理；
 
-3\. 对用户输入进行白名单校验，限制不必要的特殊字符；
+3. 对用户输入进行白名单校验，限制不必要的特殊字符；
 
-4\. 对富文本内容使用安全的 HTML 清洗库，只允许安全标签和属性；
+4. 对富文本内容使用安全的 HTML 清洗库，只允许安全标签和属性；
 
-5\. 设置合理的 Content Security Policy，降低脚本执行风险；
+5. 设置合理的 Content Security Policy，降低脚本执行风险；
 
-6\. 对 Cookie 设置 `HttpOnly` 和 `SameSite` 属性，降低脚本利用后的影响；
+6. 对 Cookie 设置 `HttpOnly` 和 `SameSite` 属性，降低脚本利用后的影响；
 
-7\. 避免直接使用 `innerHTML` 等危险方式拼接用户输入；
+7. 避免直接使用 `innerHTML` 等危险方式拼接用户输入；
 
-8\. 前端校验只能作为辅助措施，不能替代服务端安全处理；
+8. 前端校验只能作为辅助措施，不能替代服务端安全处理；
 
-9\. 对异常输入和高风险请求记录安全日志并进行告警。
-
-
-
-\## 8. 复测结论
+9. 对异常输入和高风险请求记录安全日志并进行告警。
 
 
 
-\* 复测结果：通过
+## 8. 复测结论
 
-\* 复测说明：在 DVWA Impossible 安全等级下，反射型 XSS 和存储型 XSS 的测试输入均未被浏览器当作 JavaScript 执行，页面将脚本内容作为普通文本显示。
 
-\* 整改建议：真实业务系统应在服务端对用户输入进行校验，并在输出到页面时进行上下文相关的安全编码，同时配合 CSP、HttpOnly Cookie 和安全日志监控降低 XSS 风险。
+
+* 复测结果：通过
+
+* 复测说明：在 DVWA Impossible 安全等级下，反射型 XSS 和存储型 XSS 的测试输入均未被浏览器当作 JavaScript 执行，页面将脚本内容作为普通文本显示。
+
+* 整改建议：真实业务系统应在服务端对用户输入进行校验，并在输出到页面时进行上下文相关的安全编码，同时配合 CSP、HttpOnly Cookie 和安全日志监控降低 XSS 风险。
+
 
 
 

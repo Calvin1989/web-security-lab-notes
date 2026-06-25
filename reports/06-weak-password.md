@@ -1,22 +1,22 @@
-\# Web 漏洞复现报告：弱口令 / 暴力破解
+﻿# Web 漏洞复现报告：弱口令 / 暴力破解
 
 
 
-\## 1. 漏洞概述
+## 1. 漏洞概述
 
 
 
-\* 漏洞名称：弱口令 / 暴力破解
+* 漏洞名称：弱口令 / 暴力破解
 
-\* 漏洞类型：身份认证缺陷 / 登录防护不足
+* 漏洞类型：身份认证缺陷 / 登录防护不足
 
-\* 风险等级：中危
+* 风险等级：中危
 
-\* 复现环境：DVWA
+* 复现环境：DVWA
 
-\* 测试方式：本地授权靶场测试
+* 测试方式：本地授权靶场测试
 
-\* 影响范围：登录接口、后台管理入口、用户认证接口、运维管理平台等需要账号密码认证的功能点。
+* 影响范围：登录接口、后台管理入口、用户认证接口、运维管理平台等需要账号密码认证的功能点。
 
 
 
@@ -28,7 +28,7 @@
 
 
 
-\## 2. 漏洞原理
+## 2. 漏洞原理
 
 
 
@@ -70,33 +70,33 @@
 
 
 
-\## 3. 复现环境
+## 3. 复现环境
 
 
 
-\* 系统环境：Windows
+* 系统环境：Windows
 
-\* Web 环境：小皮面板 / PHP / MySQL
+* Web 环境：小皮面板 / PHP / MySQL
 
-\* 靶场名称：DVWA
+* 靶场名称：DVWA
 
-\* 靶场地址：`http://127.0.0.1/dvwa`
+* 靶场地址：`http://127.0.0.1/dvwa`
 
-\* 使用工具：Chrome、Burp Suite
+* 使用工具：Chrome、Burp Suite
 
-\* 测试账号：本地靶场测试账号
+* 测试账号：本地靶场测试账号
 
-\* 漏洞模块：Brute Force
+* 漏洞模块：Brute Force
 
-\* 安全等级：Low / Impossible
-
-
-
-\## 4. 复现步骤
+* 安全等级：Low / Impossible
 
 
 
-\### 4.1 定位测试点
+## 4. 复现步骤
+
+
+
+### 4.1 定位测试点
 
 
 
@@ -132,21 +132,21 @@ screenshots/weak-password/01-brute-force-page.png
 
 
 
-\* 是否存在默认账号或弱口令；
+* 是否存在默认账号或弱口令；
 
-\* 登录失败后是否有次数限制；
+* 登录失败后是否有次数限制；
 
-\* 是否存在验证码；
+* 是否存在验证码；
 
-\* 是否存在账号锁定机制；
+* 是否存在账号锁定机制；
 
-\* 是否存在 IP 限速；
+* 是否存在 IP 限速；
 
-\* 是否记录异常登录日志。
+* 是否记录异常登录日志。
 
 
 
-\### 4.2 错误密码测试
+### 4.2 错误密码测试
 
 
 
@@ -184,7 +184,7 @@ screenshots/weak-password/02-wrong-password-result.png
 
 
 
-\### 4.3 正确弱口令测试
+### 4.3 正确弱口令测试
 
 
 
@@ -234,7 +234,7 @@ screenshots/weak-password/03-success-login-result.png
 
 
 
-\### 4.4 Burp Suite 抓包分析
+### 4.4 Burp Suite 抓包分析
 
 
 
@@ -260,9 +260,9 @@ screenshots/weak-password/04-burp-login-request.png
 
 ```http
 
-GET /dvwa/vulnerabilities/brute/?username=admin\&password=password\&Login=Login HTTP/1.1
+GET /dvwa/vulnerabilities/brute/?username=admin&password=password&Login=Login HTTP/1.1
 
-Cookie: PHPSESSID=\*\*\*; security=low
+Cookie: PHPSESSID=***; security=low
 
 ```
 
@@ -272,7 +272,7 @@ Cookie: PHPSESSID=\*\*\*; security=low
 
 
 
-\### 4.5 Repeater 手工重放测试
+### 4.5 Repeater 手工重放测试
 
 
 
@@ -332,7 +332,7 @@ screenshots/weak-password/05-repeater-password-test.png
 
 
 
-\### 4.6 Impossible 模式对比
+### 4.6 Impossible 模式对比
 
 
 
@@ -356,7 +356,7 @@ screenshots/weak-password/06-impossible-compare.png
 
 
 
-\## 5. 漏洞验证结果
+## 5. 漏洞验证结果
 
 
 
@@ -368,19 +368,19 @@ screenshots/weak-password/06-impossible-compare.png
 
 
 
-1\. Brute Force 页面存在用户名和密码输入框；
+1. Brute Force 页面存在用户名和密码输入框；
 
-2\. 输入错误密码时返回登录失败；
+2. 输入错误密码时返回登录失败；
 
-3\. 输入 `admin/password` 时登录成功；
+3. 输入 `admin/password` 时登录成功；
 
-4\. Burp Suite 抓包显示登录请求中包含 `username` 和 `password` 参数；
+4. Burp Suite 抓包显示登录请求中包含 `username` 和 `password` 参数；
 
-5\. Repeater 可以重放请求并修改密码参数；
+5. Repeater 可以重放请求并修改密码参数；
 
-6\. Low 模式下没有明显验证码、锁定、限速等保护；
+6. Low 模式下没有明显验证码、锁定、限速等保护；
 
-7\. Impossible 模式下出现更严格的失败限制提示。
+7. Impossible 模式下出现更严格的失败限制提示。
 
 
 
@@ -406,7 +406,7 @@ screenshots/weak-password/06-impossible-compare.png
 
 
 
-\## 6. 风险影响
+## 6. 风险影响
 
 
 
@@ -414,17 +414,17 @@ screenshots/weak-password/06-impossible-compare.png
 
 
 
-\* 普通用户账号被接管；
+* 普通用户账号被接管；
 
-\* 管理员后台被未授权访问；
+* 管理员后台被未授权访问；
 
-\* 用户隐私数据泄露；
+* 用户隐私数据泄露；
 
-\* 攻击者冒用合法用户身份进行操作；
+* 攻击者冒用合法用户身份进行操作；
 
-\* 批量撞库或密码喷洒攻击；
+* 批量撞库或密码喷洒攻击；
 
-\* 与越权、文件上传等漏洞组合后扩大攻击影响。
+* 与越权、文件上传等漏洞组合后扩大攻击影响。
 
 
 
@@ -432,7 +432,7 @@ screenshots/weak-password/06-impossible-compare.png
 
 
 
-\## 7. 修复建议
+## 7. 修复建议
 
 
 
@@ -440,37 +440,38 @@ screenshots/weak-password/06-impossible-compare.png
 
 
 
-1\. 禁止使用默认密码，系统首次登录时强制修改默认密码；
+1. 禁止使用默认密码，系统首次登录时强制修改默认密码；
 
-2\. 建立强密码策略，例如长度、复杂度、弱密码字典检测；
+2. 建立强密码策略，例如长度、复杂度、弱密码字典检测；
 
-3\. 对登录失败次数进行限制，例如连续失败 5 次后临时锁定账号；
+3. 对登录失败次数进行限制，例如连续失败 5 次后临时锁定账号；
 
-4\. 对同一 IP 的高频登录请求进行限速；
+4. 对同一 IP 的高频登录请求进行限速；
 
-5\. 对异常登录行为增加验证码或二次验证；
+5. 对异常登录行为增加验证码或二次验证；
 
-6\. 对管理员账号启用多因素认证；
+6. 对管理员账号启用多因素认证；
 
-7\. 记录登录日志，包括成功、失败、来源 IP、User-Agent、时间等信息；
+7. 记录登录日志，包括成功、失败、来源 IP、User-Agent、时间等信息；
 
-8\. 对异常登录行为配置告警，例如短时间内大量失败登录；
+8. 对异常登录行为配置告警，例如短时间内大量失败登录；
 
-9\. 不在错误提示中区分“用户名不存在”和“密码错误”，避免账号枚举；
+9. 不在错误提示中区分“用户名不存在”和“密码错误”，避免账号枚举；
 
-10\. 对长期未修改密码、弱密码账号进行定期巡检。
-
-
-
-\## 8. 复测结论
+10. 对长期未修改密码、弱密码账号进行定期巡检。
 
 
 
-\* 复测结果：通过
+## 8. 复测结论
 
-\* 复测说明：在 DVWA Impossible 安全等级下，错误登录后出现更严格的失败限制提示，说明系统增加了防暴力破解机制。
 
-\* 整改建议：真实业务系统应结合强密码策略、失败次数限制、IP 限速、账号锁定、多因素认证和安全日志告警，降低弱口令和暴力破解风险。
+
+* 复测结果：通过
+
+* 复测说明：在 DVWA Impossible 安全等级下，错误登录后出现更严格的失败限制提示，说明系统增加了防暴力破解机制。
+
+* 整改建议：真实业务系统应结合强密码策略、失败次数限制、IP 限速、账号锁定、多因素认证和安全日志告警，降低弱口令和暴力破解风险。
+
 
 
 

@@ -1,22 +1,22 @@
-\# Web 漏洞复现报告：水平越权漏洞
+﻿# Web 漏洞复现报告：水平越权漏洞
 
 
 
-\## 1. 漏洞概述
+## 1. 漏洞概述
 
 
 
-\* 漏洞名称：水平越权漏洞
+* 漏洞名称：水平越权漏洞
 
-\* 漏洞类型：访问控制缺陷 / 资源级权限校验缺失
+* 漏洞类型：访问控制缺陷 / 资源级权限校验缺失
 
-\* 风险等级：高
+* 风险等级：高
 
-\* 复现环境：Pikachu
+* 复现环境：Pikachu
 
-\* 测试方式：本地授权靶场测试
+* 测试方式：本地授权靶场测试
 
-\* 影响范围：用户资料、订单信息、收货地址、文件下载、工单详情、消息记录等与用户资源绑定的业务功能。
+* 影响范围：用户资料、订单信息、收货地址、文件下载、工单详情、消息记录等与用户资源绑定的业务功能。
 
 
 
@@ -28,7 +28,7 @@
 
 
 
-\## 2. 漏洞原理
+## 2. 漏洞原理
 
 
 
@@ -74,31 +74,31 @@
 
 
 
-\## 3. 复现环境
+## 3. 复现环境
 
 
 
-\* 系统环境：Windows
+* 系统环境：Windows
 
-\* Web 环境：小皮面板 / PHP / MySQL
+* Web 环境：小皮面板 / PHP / MySQL
 
-\* 靶场名称：Pikachu
+* 靶场名称：Pikachu
 
-\* 靶场地址：`http://127.0.0.1/pikachu`
+* 靶场地址：`http://127.0.0.1/pikachu`
 
-\* 使用工具：Chrome、Burp Suite
+* 使用工具：Chrome、Burp Suite
 
-\* 漏洞模块：Over Permission / 水平越权
+* 漏洞模块：Over Permission / 水平越权
 
-\* 测试方式：本地授权靶场测试
-
-
-
-\## 4. 复现步骤
+* 测试方式：本地授权靶场测试
 
 
 
-\### 4.1 定位测试点
+## 4. 复现步骤
+
+
+
+### 4.1 定位测试点
 
 
 
@@ -130,7 +130,7 @@ screenshots/access-control/01-over-permission-page.png
 
 
 
-\### 4.2 使用普通用户登录
+### 4.2 使用普通用户登录
 
 
 
@@ -154,7 +154,7 @@ screenshots/access-control/02-horizontal-login-user-a.png
 
 
 
-\### 4.3 查看当前用户信息
+### 4.3 查看当前用户信息
 
 
 
@@ -178,7 +178,7 @@ screenshots/access-control/03-horizontal-user-a-info.png
 
 
 
-\### 4.4 修改用户标识参数
+### 4.4 修改用户标识参数
 
 
 
@@ -212,7 +212,7 @@ username=lili
 
 ```text
 
-http://127.0.0.1/pikachu/vul/overpermission/op1/op1\_mem.php?username=lili\&submit=点击查看个人信息
+http://127.0.0.1/pikachu/vul/overpermission/op1/op1_mem.php?username=lili&submit=点击查看个人信息
 
 ```
 
@@ -234,7 +234,7 @@ screenshots/access-control/04-horizontal-change-userid.png
 
 
 
-\### 4.5 访问其他用户信息
+### 4.5 访问其他用户信息
 
 
 
@@ -258,7 +258,7 @@ screenshots/access-control/05-horizontal-user-b-info.png
 
 
 
-\### 4.6 Burp Suite 抓包分析
+### 4.6 Burp Suite 抓包分析
 
 
 
@@ -284,9 +284,9 @@ screenshots/access-control/06-burp-horizontal-request.png
 
 ```http
 
-GET /pikachu/vul/overpermission/op1/op1\_mem.php?username=lili\&submit=... HTTP/1.1
+GET /pikachu/vul/overpermission/op1/op1_mem.php?username=lili&submit=... HTTP/1.1
 
-Cookie: PHPSESSID=\*\*\*
+Cookie: PHPSESSID=***
 
 ```
 
@@ -296,7 +296,7 @@ Cookie: PHPSESSID=\*\*\*
 
 
 
-\## 5. 漏洞验证结果
+## 5. 漏洞验证结果
 
 
 
@@ -308,17 +308,17 @@ Cookie: PHPSESSID=\*\*\*
 
 
 
-1\. 当前登录用户为 `lucy`；
+1. 当前登录用户为 `lucy`；
 
-2\. 正常情况下可以查看 `lucy` 的个人信息；
+2. 正常情况下可以查看 `lucy` 的个人信息；
 
-3\. 修改 URL 中的 `username` 参数为 `lili`；
+3. 修改 URL 中的 `username` 参数为 `lili`；
 
-4\. 页面返回了 `lili` 的个人信息；
+4. 页面返回了 `lili` 的个人信息；
 
-5\. Burp Suite 抓包显示越权访问通过 `username` 参数提交；
+5. Burp Suite 抓包显示越权访问通过 `username` 参数提交；
 
-6\. 服务端未基于当前登录用户身份进行资源级权限校验。
+6. 服务端未基于当前登录用户身份进行资源级权限校验。
 
 
 
@@ -344,7 +344,7 @@ Cookie: PHPSESSID=\*\*\*
 
 
 
-\## 6. 风险影响
+## 6. 风险影响
 
 
 
@@ -352,15 +352,15 @@ Cookie: PHPSESSID=\*\*\*
 
 
 
-\* 用户个人资料泄露；
+* 用户个人资料泄露；
 
-\* 查看他人订单、地址、文件、工单等敏感数据；
+* 查看他人订单、地址、文件、工单等敏感数据；
 
-\* 修改或删除他人资源；
+* 修改或删除他人资源；
 
-\* 冒用其他用户身份进行业务操作；
+* 冒用其他用户身份进行业务操作；
 
-\* 造成隐私泄露、数据合规风险和业务风险。
+* 造成隐私泄露、数据合规风险和业务风险。
 
 
 
@@ -370,21 +370,21 @@ Cookie: PHPSESSID=\*\*\*
 
 ```text
 
-user\_id
+user_id
 
 uid
 
 username
 
-order\_id
+order_id
 
-address\_id
+address_id
 
-file\_id
+file_id
 
-ticket\_id
+ticket_id
 
-message\_id
+message_id
 
 ```
 
@@ -394,7 +394,7 @@ message\_id
 
 
 
-\## 7. 修复建议
+## 7. 修复建议
 
 
 
@@ -402,33 +402,34 @@ message\_id
 
 
 
-1\. 服务端必须基于当前登录用户身份进行权限校验；
+1. 服务端必须基于当前登录用户身份进行权限校验；
 
-2\. 查询用户资源时，不应完全信任前端传入的用户标识；
+2. 查询用户资源时，不应完全信任前端传入的用户标识；
 
-3\. 当前用户查询自己的资料时，应优先从 Session 或 Token 中获取用户身份，而不是从请求参数中获取；
+3. 当前用户查询自己的资料时，应优先从 Session 或 Token 中获取用户身份，而不是从请求参数中获取；
 
-4\. 对订单、文件、地址、工单等资源增加资源归属校验；
+4. 对订单、文件、地址、工单等资源增加资源归属校验；
 
-5\. 对管理员查询他人数据的场景，应单独校验管理员权限；
+5. 对管理员查询他人数据的场景，应单独校验管理员权限；
 
-6\. 不要只依赖前端隐藏按钮或菜单，权限控制必须在服务端完成；
+6. 不要只依赖前端隐藏按钮或菜单，权限控制必须在服务端完成；
 
-7\. 对越权访问、异常 ID 枚举行为记录安全日志并进行告警；
+7. 对越权访问、异常 ID 枚举行为记录安全日志并进行告警；
 
-8\. 接口返回时避免暴露不必要的敏感字段。
-
-
-
-\## 8. 复测结论
+8. 接口返回时避免暴露不必要的敏感字段。
 
 
 
-\* 复测结果：未复测
+## 8. 复测结论
 
-\* 复测说明：当前 Pikachu 靶场用于漏洞演示，未对源码进行实际修复。本报告根据漏洞原理给出修复建议。
 
-\* 整改建议：真实业务系统应在服务端增加资源级权限校验，确保当前登录用户只能访问自己有权限的数据。
+
+* 复测结果：未复测
+
+* 复测说明：当前 Pikachu 靶场用于漏洞演示，未对源码进行实际修复。本报告根据漏洞原理给出修复建议。
+
+* 整改建议：真实业务系统应在服务端增加资源级权限校验，确保当前登录用户只能访问自己有权限的数据。
+
 
 
 
