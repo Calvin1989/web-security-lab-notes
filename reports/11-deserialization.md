@@ -1,52 +1,32 @@
-\# Web 漏洞复现报告：PHP 反序列化漏洞
+# Web 漏洞复现报告：PHP 反序列化漏洞
 
+## 1. 漏洞概述
 
+* 漏洞名称：PHP 反序列化漏洞
 
-\## 1. 漏洞概述
+* 漏洞类型：不安全反序列化 / 用户可控对象注入
 
+* 风险等级：中危
 
+* 复现环境：Pikachu
 
-\* 漏洞名称：PHP 反序列化漏洞
+* 测试方式：本地授权靶场测试
 
-\* 漏洞类型：不安全反序列化 / 用户可控对象注入
-
-\* 风险等级：中危
-
-\* 复现环境：Pikachu
-
-\* 测试方式：本地授权靶场测试
-
-\* 影响范围：会话数据解析、缓存数据解析、接口参数传输、对象存储、消息队列、反序列化处理等使用序列化对象的功能点。
-
-
+* 影响范围：会话数据解析、缓存数据解析、接口参数传输、对象存储、消息队列、反序列化处理等使用序列化对象的功能点。
 
 本次测试在本地 Pikachu 靶场中完成，主要复现 PHP 反序列化模块。测试发现，服务端接收用户提交的序列化字符串后直接执行 `unserialize()`，并将反序列化后对象中的 `test` 属性输出到页面。
 
-
-
 通过构造 `S` 类对象并控制其 `test` 属性值，可以让服务端输出攻击者指定内容。当属性值为脚本内容时，页面触发 XSS 弹窗。
-
-
 
 本次测试仅在本地授权靶场中进行，不涉及真实业务系统、公网目标、命令执行、文件写入或未授权测试。
 
-
-
-\## 2. 漏洞原理
-
-
+## 2. 漏洞原理
 
 序列化可以理解为：把一个对象打包成一串字符串，方便保存、传输或缓存。
 
-
-
 反序列化可以理解为：把这串字符串重新还原成对象。
 
-
-
 通俗理解：
-
-
 
 ```text
 
@@ -60,11 +40,7 @@
 
 ```
 
-
-
 PHP 序列化对象格式示例：
-
-
 
 ```text
 
@@ -72,37 +48,27 @@ O:1:"S":1:{s:4:"test";s:11:"hello unser";}
 
 ```
 
-
-
 含义如下：
 
+* `O` 表示对象；
 
+* `1` 表示类名长度；
 
-\* `O` 表示对象；
+* `"S"` 表示类名为 `S`；
 
-\* `1` 表示类名长度；
+* `1` 表示对象中有 1 个属性；
 
-\* `"S"` 表示类名为 `S`；
+* `s:4:"test"` 表示属性名为 `test`，长度为 4；
 
-\* `1` 表示对象中有 1 个属性；
-
-\* `s:4:"test"` 表示属性名为 `test`，长度为 4；
-
-\* `s:11:"hello unser"` 表示属性值为 `hello unser`，长度为 11。
-
-
+* `s:11:"hello unser"` 表示属性值为 `hello unser`，长度为 11。
 
 PHP 反序列化要求字符串长度必须准确。比如 `hello unser` 的长度是 11，如果写成 `s:12`，反序列化就会失败。
 
-
-
 本案例中，源码中存在如下逻辑：
-
-
 
 ```php
 
-$s = $\_POST\['o'];
+$s = $_POST['o'];
 
 $unser = unserialize($s);
 
@@ -110,43 +76,29 @@ $html .= "<p>{$unser->test}</p>";
 
 ```
 
-
-
 服务端直接反序列化用户提交的 `o` 参数，并输出对象的 `test` 属性。由于输出时没有进行 HTML 编码，因此当 `test` 属性为脚本内容时，会造成 XSS。
 
+## 3. 复现环境
 
+* 系统环境：Windows
 
-\## 3. 复现环境
+* Web 环境：小皮面板 / PHP / MySQL
 
+* 靶场名称：Pikachu
 
+* 靶场地址：`http://127.0.0.1/pikachu`
 
-\* 系统环境：Windows
+* 使用工具：Chrome、Burp Suite
 
-\* Web 环境：小皮面板 / PHP / MySQL
+* 漏洞模块：PHP 反序列化
 
-\* 靶场名称：Pikachu
+* 测试方式：本地授权靶场测试
 
-\* 靶场地址：`http://127.0.0.1/pikachu`
+## 4. 复现步骤
 
-\* 使用工具：Chrome、Burp Suite
-
-\* 漏洞模块：PHP 反序列化
-
-\* 测试方式：本地授权靶场测试
-
-
-
-\## 4. 复现步骤
-
-
-
-\### 4.1 定位测试点
-
-
+### 4.1 定位测试点
 
 进入 Pikachu 后，选择左侧菜单：
-
-
 
 ```text
 
@@ -154,27 +106,15 @@ PHP反序列化 -> PHP反序列化漏洞
 
 ```
 
-
-
 截图：
 
-
-
-!\[01-deserialization-page](../screenshots/deserialization/01-deserialization-page.png)
-
-
+![01-deserialization-page](../screenshots/deserialization/01-deserialization-page.png)
 
 页面提示“这是一个接受序列化数据的 api”，说明该功能会接收用户提交的序列化字符串。
 
-
-
-\### 4.2 正常反序列化测试
-
-
+### 4.2 正常反序列化测试
 
 提交以下序列化对象：
-
-
 
 ```text
 
@@ -182,11 +122,7 @@ O:1:"S":1:{s:4:"test";s:11:"hello unser";}
 
 ```
 
-
-
 页面返回：
-
-
 
 ```text
 
@@ -194,27 +130,15 @@ hello unser
 
 ```
 
-
-
 截图：
 
-
-
-!\[02-normal-unserialize-result](../screenshots/deserialization/02-normal-unserialize-result.png)
-
-
+![02-normal-unserialize-result](../screenshots/deserialization/02-normal-unserialize-result.png)
 
 该结果说明服务端成功将用户提交的序列化字符串反序列化为对象，并输出了对象中的 `test` 属性。
 
-
-
-\### 4.3 构造脚本属性值
-
-
+### 4.3 构造脚本属性值
 
 继续提交以下序列化对象：
-
-
 
 ```text
 
@@ -222,11 +146,7 @@ O:1:"S":1:{s:4:"test";s:29:"<script>alert('xss')</script>";}
 
 ```
 
-
-
 其中，`test` 属性的值为：
-
-
 
 ```html
 
@@ -234,51 +154,27 @@ O:1:"S":1:{s:4:"test";s:29:"<script>alert('xss')</script>";}
 
 ```
 
-
-
 长度为 29。
 
-
-
-\### 4.4 观察弹窗结果
-
-
+### 4.4 观察弹窗结果
 
 提交后，浏览器触发 `xss` 弹窗。
 
-
-
 截图：
 
-
-
-!\[03-deserialization-xss-alert](../screenshots/deserialization/03-deserialization-xss-alert.png)
-
-
+![03-deserialization-xss-alert](../screenshots/deserialization/03-deserialization-xss-alert.png)
 
 该结果说明攻击者可以控制反序列化对象中的属性值，并且服务端将该属性值直接输出到了页面中。由于未进行 HTML 编码，浏览器执行了其中的 JavaScript 代码。
 
-
-
-\### 4.5 Burp Suite 抓包分析
-
-
+### 4.5 Burp Suite 抓包分析
 
 使用 Burp Suite 抓取反序列化测试请求。
 
-
-
 截图：
 
-
-
-!\[04-burp-deserialization-request](../screenshots/deserialization/04-burp-deserialization-request.png)
-
-
+![04-burp-deserialization-request](../screenshots/deserialization/04-burp-deserialization-request.png)
 
 请求中的关键内容为：
-
-
 
 ```http
 
@@ -286,7 +182,7 @@ POST /pikachu/vul/unserilization/unser.php HTTP/1.1
 
 Content-Type: application/x-www-form-urlencoded
 
-Cookie: PHPSESSID=\*\*\*
+Cookie: PHPSESSID=***
 
 
 
@@ -294,233 +190,163 @@ o=O:1:"S":1:{s:4:"test";s:29:"<script>alert('xss')</script>";}
 
 ```
 
-
-
 实际抓包中，尖括号、引号等字符可能会被 URL 编码，这是正常现象。
-
-
 
 该请求说明序列化对象通过 POST 参数 `o` 提交给服务端，服务端直接对该参数进行反序列化处理。
 
-
-
-\### 4.6 源码关键点分析
-
-
+### 4.6 源码关键点分析
 
 Pikachu 源码中的关键逻辑如下：
-
-
 
 ```php
 
 class S{
 
-&#x20;   var $test = "pikachu";
+    var $test = "pikachu";
 
-&#x20;   function \_\_construct(){
+    function __construct(){
 
-&#x20;       echo $this->test;
+        echo $this->test;
 
-&#x20;   }
+    }
 
 }
 
 
 
-if(isset($\_POST\['o'])){
+if(isset($_POST['o'])){
 
-&#x20;   $s = $\_POST\['o'];
+    $s = $_POST['o'];
 
-&#x20;   if(!@$unser = unserialize($s)){
+    if(!@$unser = unserialize($s)){
 
-&#x20;       $html.="<p>大兄弟,来点劲爆点儿的!</p>";
+        $html.="<p>大兄弟,来点劲爆点儿的!</p>";
 
-&#x20;   }else{
+    }else{
 
-&#x20;       $html.="<p>{$unser->test}</p>";
+        $html.="<p>{$unser->test}</p>";
 
-&#x20;   }
+    }
 
 }
 
 ```
 
-
-
 漏洞核心点包括：
 
+1. 用户可控参数 `o` 被直接传入 `unserialize()`；
 
+2. 服务端没有限制允许反序列化的类；
 
-1\. 用户可控参数 `o` 被直接传入 `unserialize()`；
+3. 反序列化后的对象属性被直接输出到页面；
 
-2\. 服务端没有限制允许反序列化的类；
+4. 输出时没有进行 HTML 编码。
 
-3\. 反序列化后的对象属性被直接输出到页面；
-
-4\. 输出时没有进行 HTML 编码。
-
-
-
-\## 5. 漏洞验证结果
-
-
+## 5. 漏洞验证结果
 
 PHP 反序列化风险成功验证。
 
-
-
 验证依据如下：
 
+1. 服务端接收用户提交的序列化字符串；
 
+2. 构造 `S` 类对象并设置 `test` 属性为 `hello unser` 后，页面成功输出该内容；
 
-1\. 服务端接收用户提交的序列化字符串；
+3. 构造 `test` 属性为 `<script>alert('xss')</script>` 后，页面触发 XSS 弹窗；
 
-2\. 构造 `S` 类对象并设置 `test` 属性为 `hello unser` 后，页面成功输出该内容；
+4. Burp Suite 抓包显示序列化对象通过 POST 参数 `o` 提交；
 
-3\. 构造 `test` 属性为 `<script>alert('xss')</script>` 后，页面触发 XSS 弹窗；
-
-4\. Burp Suite 抓包显示序列化对象通过 POST 参数 `o` 提交；
-
-5\. 源码显示服务端直接调用 `unserialize()` 处理用户输入。
-
-
+5. 源码显示服务端直接调用 `unserialize()` 处理用户输入。
 
 关键截图：
 
-
-
 | 截图                                                                   | 说明             |
-
 | -------------------------------------------------------------------- | -------------- |
+| [01-deserialization-page](../screenshots/deserialization/01-deserialization-page.png)         | PHP 反序列化测试页面   |
+| [02-normal-unserialize-result](../screenshots/deserialization/02-normal-unserialize-result.png)    | 正常反序列化输出       |
+| [03-deserialization-xss-alert](../screenshots/deserialization/03-deserialization-xss-alert.png)    | 反序列化对象属性触发 XSS |
+| [04-burp-deserialization-request](../screenshots/deserialization/04-burp-deserialization-request.png) | Burp 抓取反序列化请求  |
 
-| `../screenshots/deserialization/01-deserialization-page.png`         | PHP 反序列化测试页面   |
-
-| `../screenshots/deserialization/02-normal-unserialize-result.png`    | 正常反序列化输出       |
-
-| `../screenshots/deserialization/03-deserialization-xss-alert.png`    | 反序列化对象属性触发 XSS |
-
-| `../screenshots/deserialization/04-burp-deserialization-request.png` | Burp 抓取反序列化请求  |
-
-
-
-\## 6. 风险影响
-
-
+## 6. 风险影响
 
 不安全反序列化漏洞可能造成以下影响：
 
+* 攻击者控制对象属性值；
 
+* 绕过业务逻辑校验；
 
-\* 攻击者控制对象属性值；
+* 触发对象中的魔术方法；
 
-\* 绕过业务逻辑校验；
+* 在存在危险方法链时可能造成文件操作、命令执行等严重后果；
 
-\* 触发对象中的魔术方法；
-
-\* 在存在危险方法链时可能造成文件操作、命令执行等严重后果；
-
-\* 与 XSS、文件写入、模板注入等问题组合后扩大影响。
-
-
+* 与 XSS、文件写入、模板注入等问题组合后扩大影响。
 
 需要说明的是，本次 Pikachu 示例主要验证的是“用户可控反序列化对象 + 属性输出未编码导致 XSS”。该案例没有复现命令执行或复杂利用链。
 
+在真实业务系统中，如果反序列化对象中存在 `__wakeup()`、`__destruct()`、`__toString()` 等魔术方法，并且这些方法中存在文件操作、命令执行、模板渲染等危险逻辑，风险等级会显著升高。
 
-
-在真实业务系统中，如果反序列化对象中存在 `\_\_wakeup()`、`\_\_destruct()`、`\_\_toString()` 等魔术方法，并且这些方法中存在文件操作、命令执行、模板渲染等危险逻辑，风险等级会显著升高。
-
-
-
-\## 7. 修复建议
-
-
+## 7. 修复建议
 
 建议从以下方面修复不安全反序列化漏洞：
 
+1. 不要对用户可控数据直接执行 `unserialize()`；
 
+2. 优先使用 JSON 等简单数据格式传输数据；
 
-1\. 不要对用户可控数据直接执行 `unserialize()`；
+3. 如果必须使用 `unserialize()`，应限制允许反序列化的类；
 
-2\. 优先使用 JSON 等简单数据格式传输数据；
+4. 对反序列化后的对象类型和属性进行严格校验；
 
-3\. 如果必须使用 `unserialize()`，应限制允许反序列化的类；
+5. 避免在魔术方法中执行文件操作、命令执行、网络请求等危险逻辑；
 
-4\. 对反序列化后的对象类型和属性进行严格校验；
+6. 对输出到页面的对象属性进行 HTML 编码；
 
-5\. 避免在魔术方法中执行文件操作、命令执行、网络请求等危险逻辑；
+7. 不将序列化对象直接暴露给客户端控制；
 
-6\. 对输出到页面的对象属性进行 HTML 编码；
+8. 对反序列化失败、异常类名、异常属性等行为记录日志；
 
-7\. 不将序列化对象直接暴露给客户端控制；
+9. 定期审计项目中的 `unserialize()` 使用点；
 
-8\. 对反序列化失败、异常类名、异常属性等行为记录日志；
+10. 对第三方依赖中的已知反序列化风险及时更新和修复。
 
-9\. 定期审计项目中的 `unserialize()` 使用点；
+## 8. 安全运营视角：日志表现与告警建议
 
-10\. 对第三方依赖中的已知反序列化风险及时更新和修复。
-
-
-
-\## 8. 安全运营视角：日志表现与告警建议
-
-
-
-\### 8.1 日志表现
-
-
+### 8.1 日志表现
 
 PHP 反序列化风险在日志中可能表现为：
 
+* 请求参数中出现 PHP 序列化对象格式，例如 `O:类名长度:"类名"`；
 
+* 参数中出现 `s:长度:"内容"`、`a:数量:{...}` 等序列化结构；
 
-\* 请求参数中出现 PHP 序列化对象格式，例如 `O:类名长度:"类名"`；
+* 请求中出现异常类名或异常对象属性；
 
-\* 参数中出现 `s:长度:"内容"`、`a:数量:{...}` 等序列化结构；
+* 反序列化失败导致异常提示或 500 响应；
 
-\* 请求中出现异常类名或异常对象属性；
+* 参数中出现脚本内容、文件路径、命令关键字等异常内容；
 
-\* 反序列化失败导致异常提示或 500 响应；
+* 同一 IP 多次提交不同序列化对象进行测试。
 
-\* 参数中出现脚本内容、文件路径、命令关键字等异常内容；
+### 8.2 告警建议
 
-\* 同一 IP 多次提交不同序列化对象进行测试。
+* 对用户输入参数中出现 `O:\\d+:"`、`s:\\d+:"`、`a:\\d+:{` 等序列化特征进行告警；
 
+* 对接口中出现异常对象结构的请求进行记录；
 
+* 对反序列化失败、异常类名、异常属性进行应用日志记录；
 
-\### 8.2 告警建议
+* 对反序列化参数中同时包含脚本标签、文件路径或命令关键字的请求提高风险等级；
 
+* 对同一 IP 高频提交不同序列化对象的行为进行聚合告警。
 
-
-\* 对用户输入参数中出现 `O:\\d+:"`、`s:\\d+:"`、`a:\\d+:{` 等序列化特征进行告警；
-
-\* 对接口中出现异常对象结构的请求进行记录；
-
-\* 对反序列化失败、异常类名、异常属性进行应用日志记录；
-
-\* 对反序列化参数中同时包含脚本标签、文件路径或命令关键字的请求提高风险等级；
-
-\* 对同一 IP 高频提交不同序列化对象的行为进行聚合告警。
-
-
-
-\### 8.3 误报控制
-
-
+### 8.3 误报控制
 
 部分系统可能正常使用序列化数据，例如缓存、会话、内部接口等。因此不能仅凭 `O:` 或 `s:` 判定攻击，应结合参数来源、接口功能、是否用户可控、类名是否异常、响应状态码和访问频率综合判断。
 
+## 9. 复测结论
 
+* 复测结果：未复测
 
-\## 9. 复测结论
+* 复测说明：当前 Pikachu 靶场用于漏洞演示，未对源码进行实际修复。本报告根据漏洞原理给出修复建议。
 
-
-
-\* 复测结果：未复测
-
-\* 复测说明：当前 Pikachu 靶场用于漏洞演示，未对源码进行实际修复。本报告根据漏洞原理给出修复建议。
-
-\* 整改建议：真实业务系统应避免对用户可控数据执行 `unserialize()`，必要时限制允许类并校验对象结构，同时对输出内容进行安全编码。
-
-
-
+* 整改建议：真实业务系统应避免对用户可控数据执行 `unserialize()`，必要时限制允许类并校验对象结构，同时对输出内容进行安全编码。

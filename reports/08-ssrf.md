@@ -50,6 +50,7 @@ SSRF 的全称是 Server-Side Request Forgery，中文通常称为服务端请�
 截图：
 
 ![01-ssrf-page](../screenshots/ssrf/01-ssrf-page.png)
+
 该页面提供一个由服务端请求远程资源的功能点，属于 SSRF 常见测试场景。
 
 ### 4.2 正常 URL 请求测试
@@ -59,6 +60,7 @@ SSRF 的全称是 Server-Side Request Forgery，中文通常称为服务端请�
 截图：
 
 ![02-normal-url-request](../screenshots/ssrf/02-normal-url-request.png)
+
 该步骤说明该功能的正常逻辑是：服务端根据用户提供的 URL 请求资源，并将响应内容返回给前端页面。
 
 ### 4.3 构造本机 URL 请求
@@ -74,6 +76,7 @@ SSRF 的全称是 Server-Side Request Forgery，中文通常称为服务端请�
 截图：
 
 ![03-localhost-url-input](../screenshots/ssrf/03-localhost-url-input.png)
+
 该步骤说明用户可以控制服务端要请求的目标地址。
 
 ### 4.4 观察 SSRF 返回结果
@@ -83,6 +86,7 @@ SSRF 的全称是 Server-Side Request Forgery，中文通常称为服务端请�
 截图：
 
 ![04-ssrf-localhost-result](../screenshots/ssrf/04-ssrf-localhost-result.png)
+
 该结果说明服务端根据用户传入的 `url` 参数请求了 `http://127.0.0.1/pikachu/`，并将响应内容返回到了页面中。SSRF 漏洞成功复现。
 
 在本地靶场环境中，`127.0.0.1` 指向当前本机服务。该测试用于证明服务端请求目标地址可被用户控制，不涉及真实内网探测。
@@ -94,6 +98,7 @@ SSRF 的全称是 Server-Side Request Forgery，中文通常称为服务端请�
 截图：
 
 ![05-burp-ssrf-request](../screenshots/ssrf/05-burp-ssrf-request.png)
+
 请求中的关键内容为：
 
 `GET /pikachu/vul/ssrf/ssrf_curl.php?url=http://127.0.0.1/pikachu/ HTTP/1.1`
@@ -116,11 +121,11 @@ SSRF 漏洞成功复现。
 
 | 截图                                                 | 说明              |
 | -------------------------------------------------- | --------------- |
-| `../screenshots/ssrf/01-ssrf-page.png`             | SSRF(curl) 测试页面 |
-| `../screenshots/ssrf/02-normal-url-request.png`    | 默认 URL 请求结果     |
-| `../screenshots/ssrf/03-localhost-url-input.png`   | 修改 url 参数为本机地址  |
-| `../screenshots/ssrf/04-ssrf-localhost-result.png` | 返回 Pikachu 首页内容 |
-| `../screenshots/ssrf/05-burp-ssrf-request.png`     | Burp 抓取 SSRF 请求 |
+| [01-ssrf-page](../screenshots/ssrf/01-ssrf-page.png)             | SSRF(curl) 测试页面 |
+| [02-normal-url-request](../screenshots/ssrf/02-normal-url-request.png)    | 默认 URL 请求结果     |
+| [03-localhost-url-input](../screenshots/ssrf/03-localhost-url-input.png)   | 修改 url 参数为本机地址  |
+| [04-ssrf-localhost-result](../screenshots/ssrf/04-ssrf-localhost-result.png) | 返回 Pikachu 首页内容 |
+| [05-burp-ssrf-request](../screenshots/ssrf/05-burp-ssrf-request.png)     | Burp 抓取 SSRF 请求 |
 
 ## 6. 风险影响
 
@@ -157,5 +162,3 @@ SSRF 漏洞可能造成以下影响：
 * 复测结果：未复测
 * 复测说明：当前 Pikachu 靶场用于漏洞演示，未对源码进行实际修复。本报告根据漏洞原理给出修复建议。
 * 整改建议：真实业务系统应采用 URL 白名单、协议限制、内网地址拦截、DNS 解析校验、重定向校验和安全日志告警等措施，降低 SSRF 风险。
-
-
