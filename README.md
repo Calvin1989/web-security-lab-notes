@@ -56,6 +56,7 @@
 | 07 | 水平越权漏洞        | Pikachu | [07-access-control.md](reports/07-access-control.md)           |
 | 08 | SSRF 服务端请求伪造  | Pikachu | [08-ssrf.md](reports/08-ssrf.md)                               |
 | 09 | CSRF 跨站请求伪造 | Pikachu | [09-csrf.md](reports/09-csrf.md) |
+| 10 | XXE XML 外部实体注入 | Pikachu | [10-xxe.md](reports/10-xxe.md) |
 
 ## 截图证据目录
 
@@ -70,6 +71,7 @@
 | 越权漏洞   | `screenshots/access-control/`      |
 | SSRF   | `screenshots/ssrf/`                |
 | CSRF | `screenshots/csrf/` |
+| XXE | `screenshots/xxe/` |
 
 ## 报告格式
 
