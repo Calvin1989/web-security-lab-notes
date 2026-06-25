@@ -100,6 +100,47 @@
 - 误报控制和多字段关联分析思路；
 - 与日志分析项目形成“漏洞复现 -> Burp 请求分析 -> 日志特征 -> 告警规则 -> 安全运营研判”的闭环。
 
+## 日志风险分析工具
+
+本项目不仅包含 Web 漏洞复现报告，还补充了一个基础日志风险分析脚本：
+
+```text
+tools/access-log-risk-summary.py
+```
+
+该脚本用于读取 Web access.log，并根据常见 Web 攻击特征生成 Markdown 风险摘要。当前支持识别的风险类型包括：
+
+* SQL 注入
+* XSS
+* 文件上传风险
+* 命令执行
+* 目录遍历 / 任意文件读取
+* 弱口令 / 暴力破解
+* SSRF
+* XXE
+* PHP 反序列化
+
+示例运行命令：
+
+```powershell
+python tools\access-log-risk-summary.py sample-logs\access-demo.log -o summary\log-risk-summary.md
+```
+
+输出结果：
+
+```text
+summary/log-risk-summary.md
+```
+
+该工具用于把漏洞复现中的攻击请求特征转化为日志检测思路，形成：
+
+```text
+漏洞复现 -> Burp 请求分析 -> 日志特征提取 -> 风险摘要输出 -> 安全运营研判
+```
+
+需要说明的是，该脚本基于正则和关键字进行基础检测，结果用于学习和初步研判，不等同于完整 WAF、SIEM 或 EDR 检测能力。
+
+
 ## 安全声明
 
 本仓库仅用于本地授权靶场学习和安全能力建设。所有测试均在 DVWA、Pikachu 等合法授权环境中完成，不涉及真实业务系统、公网目标、第三方系统或任何未授权测试。
