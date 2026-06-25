@@ -55,6 +55,7 @@
 | 06 | 弱口令 / 暴力破解    | DVWA    | [06-weak-password.md](reports/06-weak-password.md)             |
 | 07 | 水平越权漏洞        | Pikachu | [07-access-control.md](reports/07-access-control.md)           |
 | 08 | SSRF 服务端请求伪造  | Pikachu | [08-ssrf.md](reports/08-ssrf.md)                               |
+| 09 | CSRF 跨站请求伪造 | Pikachu | [09-csrf.md](reports/09-csrf.md) |
 
 ## 截图证据目录
 
@@ -68,6 +69,7 @@
 | 弱口令    | `screenshots/weak-password/`       |
 | 越权漏洞   | `screenshots/access-control/`      |
 | SSRF   | `screenshots/ssrf/`                |
+| CSRF | `screenshots/csrf/` |
 
 ## 报告格式
 
