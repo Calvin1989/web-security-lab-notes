@@ -398,9 +398,9 @@ Cookie: PHPSESSID=***
 
 Referer 为空不一定就是攻击，部分浏览器隐私设置、收藏夹访问或代理环境可能导致 Referer 缺失。更可靠的方式是结合 CSRF Token、请求方法、操作类型、用户身份、来源页面和行为频率进行综合判断。
 
-## 11. SSRF 日志表现
+## SSRF 日志表现
 
-### 11.1 常见日志特征
+### 常见日志特征
 
 SSRF 测试在日志中可能出现以下特征：
 
@@ -415,6 +415,49 @@ SSRF 测试在日志中可能出现以下特征：
 * 远程资源抓取、URL 预览、图片加载、Webhook 测试等功能点出现异常目标；
 
 * 服务端出站请求日志中出现访问内网地址的记录。
+
+## XXE 日志表现
+
+### 常见日志特征
+
+XXE 在日志中可能出现以下特征：
+
+* XML 请求体中出现 `DOCTYPE`；
+* XML 请求体中出现 `ENTITY`；
+* XML 请求体中出现 `SYSTEM`；
+* XML 请求体中出现 `file://`；
+* XML 接口中出现异常 DTD 定义；
+* 请求参数或请求体中出现本地文件路径；
+* XML 接口响应长度异常；
+* 服务端出站请求日志中出现由 XML 解析触发的外部请求。
+
+### 示例特征
+
+```text
+POST /pikachu/vul/xxe/xxe_1.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+xml=<?xml version="1.0"?>
+<!DOCTYPE note [
+<!ENTITY xxe SYSTEM "file:///C:/data/phpstudy_pro/WWW/pikachu/xxe-test.txt">
+]>
+<name>&xxe;</name>
+&submit=提交
+```
+
+### 告警建议
+
+* 对 XML 接口中出现 `DOCTYPE`、`ENTITY`、`SYSTEM`、`file://` 的请求进行告警；
+* 对 SOAP、SAML、XML 文件导入等接口进行重点监控；
+* 对 XML 请求体中的本地文件路径和内网地址进行高危告警；
+* 对异常响应长度变化进行关联分析；
+* 对服务端异常出站请求进行监控；
+* 对同一 IP 高频提交异常 XML 的行为进行聚合告警。
+
+### 误报控制
+
+部分合法 XML 文档可能包含 DTD，因此不能只根据 `DOCTYPE` 单独判定为攻击。更可靠的方式是结合是否存在外部实体、是否指向本地文件或内网地址、接口功能、用户身份、响应内容变化和服务端出站请求行为进行综合判断。
+
 
 ### 11.2 示例特征
 
