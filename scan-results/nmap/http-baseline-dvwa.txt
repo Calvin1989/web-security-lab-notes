@@ -1,0 +1,12 @@
+HTTP/1.1 302 Found
+Date: Thu, 25 Jun 2026 14:13:39 GMT
+Server: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+X-Powered-By: PHP/7.3.4
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Set-Cookie: security=impossible; path=/; HttpOnly
+Set-Cookie: PHPSESSID=i78s6j6engio8u8a4oepmprupm; expires=Fri, 26-Jun-2026 14:13:39 GMT; Max-Age=86400; path=/; HttpOnly; SameSite=Strict
+Location: login.php
+Content-Type: text/html; charset=UTF-8
+

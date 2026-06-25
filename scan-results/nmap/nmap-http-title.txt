@@ -1,0 +1,11 @@
+# Nmap 7.99 scan initiated Thu Jun 25 22:18:14 2026 as: /usr/lib/nmap/nmap --privileged -Pn -p 80 --script http-title,http-server-header -oN scan-results/nmap/http-fingerprint.txt 192.168.5.14
+Nmap scan report for 192.168.5.14 (192.168.5.14)
+Host is up (0.00044s latency).
+
+PORT   STATE SERVICE
+80/tcp open  http
+|_http-server-header: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+|_http-title: \xE7\xAB\x99\xE7\x82\xB9\xE5\x88\x9B\xE5\xBB\xBA\xE6\x88\x90\xE5\x8A\x9F-phpstudy for windows
+MAC Address: 00:0C:29:E6:A7:B5 (VMware)
+
+# Nmap done at Thu Jun 25 22:18:15 2026 -- 1 IP address (1 host up) scanned in 0.31 seconds
