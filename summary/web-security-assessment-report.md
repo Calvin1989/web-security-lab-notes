@@ -4,7 +4,7 @@
 
 ### 1.1 项目背景
 
-本报告基于本地授权靶场环境，对常见 Web 安全漏洞进行模拟安全评估。测试对象包括 DVWA 和 Pikachu 两个本地靶场系统，测试内容覆盖 SQL 注入、XSS、文件上传、命令执行、目录遍历、弱口令、水平越权、SSRF、CSRF 等常见 Web 漏洞类型。
+本报告基于本地授权靶场环境，对常见 Web 安全漏洞进行模拟安全评估。测试对象包括 DVWA 和 Pikachu 两个本地靶场系统，测试内容覆盖 SQL 注入、XSS、文件上传、命令执行、目录遍历、弱口令、水平越权、SSRF、CSRF、XXE、PHP 反序列化等 11 类常见 Web 漏洞类型。
 
 本次测试仅用于安全学习、漏洞理解、报告编写和安全服务交付训练，不涉及真实业务系统、公网目标、第三方系统或任何未授权测试。
 
@@ -27,23 +27,14 @@
 ### 1.3 测试范围
 
 | 测试对象    | 测试模块                   | 说明              |
-
 | ------- | ---------------------- | --------------- |
-
 | DVWA    | SQL Injection          | SQL 注入测试        |
-
 | DVWA    | XSS Reflected / Stored | 反射型与存储型 XSS 测试  |
-
 | DVWA    | File Upload            | 文件上传漏洞测试        |
-
 | DVWA    | Command Injection      | 命令执行漏洞测试        |
-
 | DVWA    | File Inclusion         | 目录遍历 / 任意文件读取测试 |
-
 | DVWA    | Brute Force            | 弱口令 / 暴力破解测试    |
-
 | Pikachu | Over Permission        | 水平越权漏洞测试        |
-
 | Pikachu | SSRF(curl)             | SSRF 服务端请求伪造测试  |
 | Pikachu | XXE 漏洞 | XML 外部实体注入测试 |
 | Pikachu | PHP 反序列化 | 不安全反序列化测试 |
@@ -89,23 +80,14 @@
 ## 3. 漏洞汇总
 
 | 编号      | 漏洞名称          | 风险等级 | 测试系统    | 影响模块                   | 验证状态 | 修复优先级 |
-
 | ------- | ------------- | ---- | ------- | ---------------------- | ---- | ----- |
-
 | VUL-001 | SQL 注入        | 高    | DVWA    | SQL Injection          | 已验证  | 高     |
-
 | VUL-002 | XSS 跨站脚本      | 中    | DVWA    | XSS Reflected / Stored | 已验证  | 中     |
-
 | VUL-003 | 文件上传漏洞        | 高    | DVWA    | File Upload            | 已验证  | 高     |
-
 | VUL-004 | 命令执行漏洞        | 高    | DVWA    | Command Injection      | 已验证  | 高     |
-
 | VUL-005 | 目录遍历 / 任意文件读取 | 高    | DVWA    | File Inclusion         | 已验证  | 高     |
-
 | VUL-006 | 弱口令 / 暴力破解    | 中    | DVWA    | Brute Force            | 已验证  | 中     |
-
 | VUL-007 | 水平越权漏洞        | 高    | Pikachu | Over Permission        | 已验证  | 高     |
-
 | VUL-008 | SSRF 服务端请求伪造  | 高    | Pikachu | SSRF(curl)             | 已验证  | 高     |
 | VUL-009 | CSRF 跨站请求伪造 | 中 | Pikachu | CSRF(get) | 已验证 | 中 |
 | VUL-010 | XXE XML 外部实体注入 | 高 | Pikachu | XXE 漏洞 | 已验证 | 高 |
@@ -198,7 +180,6 @@ XXE 漏洞出现在 Pikachu 的 XXE 漏洞模块。测试中，服务端接收�
 单点报告详见：
 
 `reports/10-xxe.md`
-
 
 ## 5. 中危漏洞详情
 
