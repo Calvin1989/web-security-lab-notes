@@ -36,6 +36,7 @@
 | DVWA    | Brute Force            | 弱口令 / 暴力破解测试    |
 | Pikachu | Over Permission        | 水平越权漏洞测试        |
 | Pikachu | SSRF(curl)             | SSRF 服务端请求伪造测试  |
+| Pikachu | CSRF(get) | CSRF 跨站请求伪造测试 |
 | Pikachu | XXE 漏洞 | XML 外部实体注入测试 |
 | Pikachu | PHP 反序列化 | 不安全反序列化测试 |
 
@@ -47,7 +48,14 @@
 
 * 靶场环境：DVWA、Pikachu
 
-* 测试工具：Chrome、Burp Suite、Git、Markdown
+* 测试工具：
+	- 浏览器与抓包：Chrome、Burp Suite
+	- 服务识别：Nmap、WhatWeb
+	- 目录枚举：dirsearch
+	- 辅助验证：SQLmap
+	- 自动化初筛：Nuclei
+	- 日志分析：Python、access-log-risk-summary.py
+	- 项目管理：Git、Markdown
 
 * 测试方式：本地授权靶场手工测试
 
