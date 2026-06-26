@@ -122,6 +122,19 @@ python tools\\access-log-risk-summary.py sample-logs\\access-demo.log -o summary
 
 该部分体现了从漏洞复现到日志分析、告警规则、安全运营研判的能力延伸。
 
+### 5.工具辅助安全评估流程
+
+项目补充了 `summary/tool-assisted-assessment.md`，记录 Nmap、dirsearch、SQLmap、Nuclei 在本地授权靶场中的基础使用方式和人工复核结论。
+
+工具链覆盖：
+
+- Nmap：本地服务识别与 Web 指纹确认；
+- dirsearch：目录枚举与敏感路径识别；
+- SQLmap：对已手工确认 SQL 注入点进行辅助验证；
+- Nuclei：基础模板扫描与结果复核。
+
+该部分体现了“手工验证为主，工具辅助复核”的安全评估思路。
+
 ## 项目价值
 
 本项目可以体现以下能力：
