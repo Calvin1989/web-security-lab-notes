@@ -12,13 +12,13 @@ Web 常见漏洞复现与安全评估实践
 
 ## 项目职责
 
-\- 搭建 Windows + 小皮面板 + DVWA + Pikachu 本地授权靶场，完成 11 类 Web 常见漏洞复现与报告整理；
+- 搭建 Windows + 小皮面板 + DVWA + Pikachu 本地授权靶场，完成 11 类 Web 常见漏洞复现与报告整理；
 
-\- 使用 Burp Suite 分析 HTTP 请求参数、Cookie、请求体和响应结果，完成手工漏洞验证；
+- 使用 Burp Suite 分析 HTTP 请求参数、Cookie、请求体和响应结果，完成手工漏洞验证；
 
-\- 使用 Nmap、dirsearch、SQLmap、Nuclei 进行资产识别、目录枚举、辅助验证和扫描结果复核；
+- 使用 Nmap、dirsearch、SQLmap、Nuclei 进行资产识别、目录枚举、辅助验证和扫描结果复核；
 
-\- 编写 access log 风险摘要脚本，总结 SQL 注入、XSS、暴力破解、目录遍历等攻击行为的日志特征和告警建议。技术栈
+- 编写 access log 风险摘要脚本，总结 SQL 注入、XSS、暴力破解、目录遍历等攻击行为的日志特征和告警建议。技术栈
 
 DVWA、Pikachu、Burp Suite、PHP、MySQL、HTTP、Markdown、Python、正则表达式、Web Access Log 分析
 
