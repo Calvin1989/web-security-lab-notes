@@ -67,3 +67,12 @@ python tools\access-log-risk-summary.py sample-logs\access-demo.log -o summary\l
 本案例展示了如何把 Web 漏洞复现结果转化为日志分析场景。相比单纯记录 Payload，日志分析更关注攻击行为在访问日志中的表现形式，以及如何通过规则、脚本和人工研判发现潜在风险。
 
 后续可以将该样例日志导入 LogForenSight 等日志分析工具，继续完成事件聚合、风险类型识别、调查实体提取和证据包输出。
+## 7. 与 LogForenSight 的联动
+
+本项目中的 `sample-logs/access-demo.log` 可作为 LogForenSight 的样例输入，用于演示 Web 攻击日志分析、风险类型识别、调查实体提取、事件聚合和 Evidence Pack 输出。
+
+联动流程：
+
+    漏洞复现 -> 攻击请求 -> access.log -> LogForenSight 分析 -> 事件研判 -> Evidence Pack 输出
+
+通过这种方式，两个项目可以形成完整链路：本项目负责构造和解释 Web 攻击行为，LogForenSight 负责对日志进行分析、聚合、研判和报告输出。

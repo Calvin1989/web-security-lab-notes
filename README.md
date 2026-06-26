@@ -167,3 +167,9 @@ summary/log-risk-summary.md
 ## Web 攻击日志分析案例
 
 - [Web 攻击日志分析案例](notes/log-analysis-case-study.md)
+
+## 项目验证与收尾文档
+
+- [项目验证记录](VALIDATION.md)
+- [工具扫描结果说明](scan-results/README.md)
+- [Web 攻击日志分析案例](notes/log-analysis-case-study.md)
