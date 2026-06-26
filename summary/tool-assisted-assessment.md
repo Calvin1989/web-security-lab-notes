@@ -1,4 +1,4 @@
-# 工具辅助安全评估报告
+﻿# 工具辅助安全评估报告
 
 
 
@@ -61,12 +61,11 @@ curl -I http://192.168.5.14/pikachu/
 
 相关证据文件：
 
-```text
-scan-results/nmap/http-baseline-dvwa.txt
-scan-results/nmap/http-baseline-pikachu.txt
-scan-results/nmap/http-baseline-dvwa.png
-scan-results/nmap/http-baseline-pikachu.png
-```
+- [http-baseline-dvwa.txt](../scan-results/nmap/http-baseline-dvwa.txt)
+- [http-baseline-pikachu.txt](../scan-results/nmap/http-baseline-pikachu.txt)
+![http-baseline-dvwa](../scan-results/nmap/http-baseline-dvwa.png)
+![http-baseline-pikachu](../scan-results/nmap/http-baseline-pikachu.png)
+
 
 ### 2.4 端口与服务识别
 
@@ -89,10 +88,9 @@ nmap -sV -Pn -p 80,443,3306,8080,8000,8888 192.168.5.14 -oN scan-results/nmap/lo
 
 相关证据文件：
 
-```text
-scan-results/nmap/local-service-scan.txt
-scan-results/nmap/nmap-local-service-scan.png
-```
+- [local-service-scan.txt](../scan-results/nmap/local-service-scan.txt)
+![nmap-local-service-scan](../scan-results/nmap/nmap-local-service-scan.png)
+
 
 ### 2.5 HTTP 指纹识别
 
@@ -116,10 +114,9 @@ HTTP 服务信息包括：
 
 相关证据文件：
 
-```text
-scan-results/nmap/http-fingerprint.txt
-scan-results/nmap/nmap-http-title.png
-```
+- [http-fingerprint.txt](../scan-results/nmap/http-fingerprint.txt)
+![nmap-http-title](../scan-results/nmap/nmap-http-title.png)
+
 
 ### 2.6 WhatWeb Web 指纹识别
 
@@ -146,12 +143,11 @@ whatweb http://192.168.5.14/pikachu/
 
 相关证据文件：
 
-```text
-scan-results/nmap/whatweb-dvwa.txt
-scan-results/nmap/whatweb-pikachu.txt
-scan-results/nmap/whatweb-dvwa.png
-scan-results/nmap/whatweb-pikachu.png
-```
+- [whatweb-dvwa.txt](../scan-results/nmap/whatweb-dvwa.txt)
+- [whatweb-pikachu.txt](../scan-results/nmap/whatweb-pikachu.txt)
+![whatweb-dvwa](../scan-results/nmap/whatweb-dvwa.png)
+![whatweb-pikachu](../scan-results/nmap/whatweb-pikachu.png)
+
 
 其中公开展示前已对敏感信息进行打码处理。
 
@@ -292,12 +288,11 @@ curl -I http://192.168.5.14/dvwa/.dockerignore
 
 本阶段相关证据文件如下：
 
-```text
-scan-results/dirscan/dvwa-dirsearch-focused.txt
-scan-results/dirscan/dvwa-path-review.txt
-scan-results/dirscan/dirsearch-dvwa-focused-result.png
-scan-results/dirscan/dirsearch-dvwa-path-review.png
-```
+- [dvwa-dirsearch-focused.txt](../scan-results/dirscan/dvwa-dirsearch-focused.txt)
+- [dvwa-path-review.txt](../scan-results/dirscan/dvwa-path-review.txt)
+![dirsearch-dvwa-focused-result](../scan-results/dirscan/dirsearch-dvwa-focused-result.png)
+![dirsearch-dvwa-path-review](../scan-results/dirscan/dirsearch-dvwa-path-review.png)
+
 
 ### 3.9 小结
 
@@ -370,10 +365,9 @@ SQLmap 同时识别出以下信息：
 
 本阶段相关证据文件如下：
 
-```text
-scan-results/sqlmap/dvwa-sqli-verify.txt
-scan-results/sqlmap/sqlmap-dvwa-current-db.png
-```
+- [dvwa-sqli-verify.txt](../scan-results/sqlmap/dvwa-sqli-verify.txt)
+![sqlmap-dvwa-current-db](../scan-results/sqlmap/sqlmap-dvwa-current-db.png)
+
 
 ### 4.7 小结
 
@@ -470,18 +464,18 @@ Dockerfile 文件暴露属于信息泄露类风险。在本地靶场环境中，
 
 本阶段相关证据文件如下：
 
-```text
-scan-results/nuclei/dvwa-nuclei-scan.txt
-scan-results/nuclei/pikachu-nuclei-scan.txt
-scan-results/nuclei/nuclei-result-review.txt
-scan-results/nuclei/nuclei-dvwa-scan.png
-scan-results/nuclei/nuclei-pikachu-scan.png
-scan-results/nuclei/nuclei-dockerfile-review.png
-```
+- [dvwa-nuclei-scan.txt](../scan-results/nuclei/dvwa-nuclei-scan.txt)
+- [pikachu-nuclei-scan.txt](../scan-results/nuclei/pikachu-nuclei-scan.txt)
+- [nuclei-result-review.txt](../scan-results/nuclei/nuclei-result-review.txt)
+![nuclei-dvwa-scan](../scan-results/nuclei/nuclei-dvwa-scan.png)
+![nuclei-pikachu-scan](../scan-results/nuclei/nuclei-pikachu-scan.png)
+![nuclei-dockerfile-review](../scan-results/nuclei/nuclei-dockerfile-review.png)
+
 
 ### 5.8 小结
 
 本阶段通过 Nuclei 对本地授权靶场进行基础模板扫描，识别出 DVWA 默认账号口令和 Dockerfile 文件暴露等可复核结果。
 
 该阶段体现了自动化工具在安全评估中的辅助价值：工具可以快速发现模板化风险，但最终结论仍需要结合人工复核、业务背景和手工漏洞验证结果。
+
 
