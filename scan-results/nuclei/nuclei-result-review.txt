@@ -1,0 +1,21 @@
+## DVWA nuclei scan result
+[dvwa-default-login] [http] [critical] http://192.168.5.14/dvwa/index.php [password="password",username="admin"]
+[dockerfile-hidden-disclosure] [http] [medium] http://192.168.5.14/dvwa/Dockerfile
+
+## Dockerfile manual review
+HTTP/1.1 200 OK
+Server: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+Content-Length: 1030
+FROM docker.io/library/php:8-apache
+
+LABEL org.opencontainers.image.source=https://github.com/digininja/DVWA
+LABEL org.opencontainers.image.description="DVWA pre-built image."
+LABEL org.opencontainers.image.licenses="gpl-3.0"
+
+WORKDIR /var/www/html
+
+# https://www.php.net/manual/en/image.installation.php
+RUN apt-get update \
+
+## Pikachu nuclei scan result
+[dockerfile-hidden-disclosure] [http] [medium] http://192.168.5.14/pikachu/Dockerfile

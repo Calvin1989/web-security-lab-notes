@@ -1,0 +1,2 @@
+[dvwa-default-login] [http] [critical] http://192.168.5.14/dvwa/index.php [password="password",username="admin"]
+[dockerfile-hidden-disclosure] [http] [medium] http://192.168.5.14/dvwa/Dockerfile

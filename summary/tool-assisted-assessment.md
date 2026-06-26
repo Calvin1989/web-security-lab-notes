@@ -380,3 +380,108 @@ scan-results/sqlmap/sqlmap-dvwa-current-db.png
 本阶段通过 SQLmap 对已手工确认的 SQL 注入点进行了辅助验证。工具结果进一步确认了 `id` 参数存在 SQL 注入风险，并识别出后端数据库类型和当前数据库名。
 
 该阶段体现了“手工验证为主，工具辅助复核”的安全评估思路。
+
+## 5. Nuclei 自动化模板扫描
+
+### 5.1 测试目的
+
+在本地授权靶场环境中，使用 Nuclei 对 DVWA 和 Pikachu 进行基础模板扫描，了解自动化扫描工具在安全评估中的作用、输出结果和人工复核流程。
+
+Nuclei 在本项目中用于自动化初筛和结果复核，不替代手工漏洞验证。对于业务逻辑、越权、CSRF、反序列化、文件上传等问题，仍需要结合登录态、请求参数、页面行为和 Burp Suite 抓包进行人工判断。
+
+### 5.2 测试目标
+
+本次测试目标包括：
+
+```text
+http://192.168.5.14/dvwa/
+http://192.168.5.14/pikachu/
+```
+
+测试环境说明：
+
+* 扫描主机：Kali
+* 目标主机：Windows 本地靶场
+* 目标 IP：`192.168.5.14`
+* 工具：Nuclei
+* Nuclei 版本：v3.8.0
+* 测试范围：本地授权靶场 DVWA / Pikachu
+
+### 5.3 测试命令
+
+DVWA 扫描命令：
+
+```text
+nuclei -u http://192.168.5.14/dvwa/ -severity low,medium,high,critical -o scan-results/nuclei/dvwa-nuclei-scan.txt
+```
+
+Pikachu 扫描命令：
+
+```text
+nuclei -u http://192.168.5.14/pikachu/ -severity low,medium,high,critical -o scan-results/nuclei/pikachu-nuclei-scan.txt
+```
+
+### 5.4 扫描结果摘要
+
+DVWA 扫描结果如下：
+
+| 模板命中                           | 风险等级     | 目标                 | 说明                   |
+| ------------------------------ | -------- | ------------------ | -------------------- |
+| `dvwa-default-login`           | critical | `/dvwa/index.php`  | 命中 DVWA 默认账号口令模板     |
+| `dockerfile-hidden-disclosure` | medium   | `/dvwa/Dockerfile` | 命中 Dockerfile 文件暴露模板 |
+
+Pikachu 扫描结果如下：
+
+| 模板命中                           | 风险等级   | 目标                    | 说明                   |
+| ------------------------------ | ------ | --------------------- | -------------------- |
+| `dockerfile-hidden-disclosure` | medium | `/pikachu/Dockerfile` | 命中 Dockerfile 文件暴露模板 |
+
+### 5.5 人工复核结果
+
+对 Nuclei 命中的结果进行人工复核：
+
+| 发现项                   | 复核方式                            | 复核结论                                  |
+| --------------------- | ------------------------------- | ------------------------------------- |
+| DVWA 默认账号口令           | 与前期弱口令手工验证结果对比                  | 与 `admin/password` 弱口令验证结果一致          |
+| DVWA Dockerfile 暴露    | 使用 `curl` 访问 `/dvwa/Dockerfile` | 返回 `200 OK`，可以读取 Dockerfile 内容        |
+| Pikachu Dockerfile 暴露 | 结合 Nuclei 扫描结果复核                | 模板命中 Dockerfile 暴露风险，需要在真实环境中避免暴露构建文件 |
+
+Dockerfile 人工复核命令：
+
+```text
+curl -s http://192.168.5.14/dvwa/Dockerfile | head -n 20
+```
+
+人工复核结果显示，DVWA 的 Dockerfile 可以被访问，内容中包含基础镜像、项目来源、工作目录和构建命令等信息。
+
+### 5.6 结果分析
+
+本次 Nuclei 扫描识别出两类问题：默认账号口令和 Dockerfile 文件暴露。
+
+DVWA 默认账号口令命中结果与前期弱口令手工验证结论一致，说明自动化工具可以辅助发现已知弱口令或默认配置风险。
+
+Dockerfile 文件暴露属于信息泄露类风险。在本地靶场环境中，这是学习环境的正常现象；但在真实业务系统中，构建文件、部署文件或项目辅助文件如果可被公网访问，可能泄露技术栈、目录结构、依赖信息、构建方式或部署线索。
+
+需要注意的是，Nuclei 的模板扫描结果不能直接替代人工判断。对于越权、CSRF、XXE、PHP 反序列化、文件上传等依赖具体业务流程、登录态、请求体或手工构造 Payload 的漏洞，自动化扫描不一定能够完整覆盖。
+
+因此，本项目中 Nuclei 的定位是：自动化初筛、发现线索、辅助复核，而不是替代手工漏洞验证。
+
+### 5.7 证据文件
+
+本阶段相关证据文件如下：
+
+```text
+scan-results/nuclei/dvwa-nuclei-scan.txt
+scan-results/nuclei/pikachu-nuclei-scan.txt
+scan-results/nuclei/nuclei-result-review.txt
+scan-results/nuclei/nuclei-dvwa-scan.png
+scan-results/nuclei/nuclei-pikachu-scan.png
+scan-results/nuclei/nuclei-dockerfile-review.png
+```
+
+### 5.8 小结
+
+本阶段通过 Nuclei 对本地授权靶场进行基础模板扫描，识别出 DVWA 默认账号口令和 Dockerfile 文件暴露等可复核结果。
+
+该阶段体现了自动化工具在安全评估中的辅助价值：工具可以快速发现模板化风险，但最终结论仍需要结合人工复核、业务背景和手工漏洞验证结果。
+
