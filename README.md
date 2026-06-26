@@ -24,6 +24,7 @@
 - 额外整理模拟 Web 系统安全评估总报告，将单点漏洞报告整合为安全服务交付视角；
 - 补充 Web 攻击日志表现与告警建议速查表，将漏洞复现与安全运营日志分析关联起来；
 - 所有测试均在 DVWA、Pikachu 等本地授权靶场中完成，保留明确安全边界说明。
+- 补充工具辅助安全评估流程：使用 Nmap 进行本地服务识别，使用 dirsearch 进行目录枚举，使用 SQLmap 对已手工确认的 SQL 注入点进行辅助验证，使用 Nuclei 进行基础模板扫描，并整理扫描结果和人工复核结论。
 
 ## 复现环境
 
@@ -32,6 +33,8 @@
 * 靶场环境：DVWA、Pikachu
 * 辅助工具：Chrome、Burp Suite
 * 测试方式：本地授权靶场测试
+- 辅助工具：Nmap、dirsearch、SQLmap、Nuclei
+- 日志分析：Python、access-log-risk-summary.py
 
 ## 交付文档
 
@@ -43,6 +46,8 @@
 | [Web 漏洞修复建议速查表](notes/remediation-cheatsheet.md) | 汇总 11 类漏洞的常见修复建议 |
 | [Web 攻击日志表现与告警建议速查表](notes/log-detection-cheatsheet.md) | 汇总常见 Web 攻击在日志中的表现和基础告警建议 |
 | GitHub 项目展示说明 | [summary/github-showcase.md](summary/github-showcase.md) |
+| 工具辅助安全评估报告 | [summary/tool-assisted-assessment.md](summary/tool-assisted-assessment.md) |
+| 工具扫描结果与证据 | [scan-results/](scan-results/) |
 
 ## 已完成漏洞报告
 
