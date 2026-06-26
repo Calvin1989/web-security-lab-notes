@@ -16,23 +16,177 @@
 
 ## 2. Nmap 本地服务识别
 
-
-
 ### 2.1 测试目的
-
-
 
 在 Kali 环境中使用 Nmap 对 Windows 本地靶场主机进行端口和服务识别，确认 DVWA、Pikachu 所在 Web 服务端口，并观察本地测试环境是否存在其他开放服务。
 
+Nmap 在本项目中用于资产识别和服务枚举，不直接作为漏洞验证结论。后续漏洞确认仍需要结合 Burp Suite 抓包、页面复现结果、业务影响和人工分析完成。
 
+### 2.2 测试目标
 
 本次测试目标为本地授权靶场主机：
 
+```text
+192.168.5.14
+```
 
+测试环境说明：
+
+* 扫描主机：Kali
+* 目标主机：Windows 本地靶场
+* 目标 IP：`192.168.5.14`
+* 靶场服务：DVWA、Pikachu
+* Web 服务端口：80
+* 测试范围：本地授权靶场环境
+
+### 2.3 连通性与 HTTP 基线验证
+
+测试过程中，Kali 对 Windows 主机的 ICMP Ping 未收到响应，但 HTTP 请求可以正常访问靶场服务。因此后续 Nmap 扫描使用 `-Pn` 参数跳过主机发现，直接进行端口和服务识别。
+
+DVWA 基线请求：
 
 ```text
+curl -I http://192.168.5.14/dvwa/
+```
 
-192.168.5.14
+结果显示 DVWA 返回 `302 Found`，并跳转到 `login.php`，说明 DVWA 服务可访问但需要登录。
+
+Pikachu 基线请求：
+
+```text
+curl -I http://192.168.5.14/pikachu/
+```
+
+结果显示 Pikachu 返回 `200 OK`，说明 Pikachu 首页可以从 Kali 正常访问。
+
+相关证据文件：
+
+```text
+scan-results/nmap/http-baseline-dvwa.txt
+scan-results/nmap/http-baseline-pikachu.txt
+scan-results/nmap/http-baseline-dvwa.png
+scan-results/nmap/http-baseline-pikachu.png
+```
+
+### 2.4 端口与服务识别
+
+执行命令：
+
+```text
+nmap -sV -Pn -p 80,443,3306,8080,8000,8888 192.168.5.14 -oN scan-results/nmap/local-service-scan.txt
+```
+
+扫描结果摘要：
+
+| 端口       | 状态       | 服务             | 结果说明                                  |
+| -------- | -------- | -------------- | ------------------------------------- |
+| 80/tcp   | open     | http           | 本地 Web 靶场服务端口，DVWA 和 Pikachu 均通过该端口访问 |
+| 3306/tcp | open     | mysql          | 本地 MySQL 数据库服务端口                      |
+| 443/tcp  | filtered | https          | HTTPS 端口被过滤或未开放                       |
+| 8000/tcp | filtered | http-alt       | 备用 Web 端口被过滤或未开放                      |
+| 8080/tcp | filtered | http-proxy     | 备用 Web 端口被过滤或未开放                      |
+| 8888/tcp | filtered | sun-answerbook | 备用端口被过滤或未开放                           |
+
+相关证据文件：
+
+```text
+scan-results/nmap/local-service-scan.txt
+scan-results/nmap/nmap-local-service-scan.png
+```
+
+### 2.5 HTTP 指纹识别
+
+执行命令：
+
+```text
+nmap -Pn -p 80 --script http-title,http-server-header 192.168.5.14 -oN scan-results/nmap/http-fingerprint.txt
+```
+
+识别结果显示目标主机 80 端口运行 Apache Web 服务，并返回 phpstudy for Windows 相关页面标题。
+
+HTTP 服务信息包括：
+
+| 项目      | 识别结果                      |
+| ------- | ------------------------- |
+| Web 服务  | Apache httpd              |
+| 操作系统环境  | Windows                   |
+| OpenSSL | OpenSSL 1.1.1b            |
+| PHP     | PHP 7.3.4                 |
+| 页面标题    | phpstudy for Windows 相关页面 |
+
+相关证据文件：
+
+```text
+scan-results/nmap/http-fingerprint.txt
+scan-results/nmap/nmap-http-title.png
+```
+
+### 2.6 WhatWeb Web 指纹识别
+
+为了补充 Web 指纹信息，使用 WhatWeb 对 DVWA 和 Pikachu 进行基础识别。
+
+DVWA 指纹识别命令：
+
+```text
+whatweb http://192.168.5.14/dvwa/
+```
+
+Pikachu 指纹识别命令：
+
+```text
+whatweb http://192.168.5.14/pikachu/
+```
+
+识别结果显示：
+
+| 目标      | 状态        | 识别信息                                        |
+| ------- | --------- | ------------------------------------------- |
+| DVWA    | 302 / 200 | Apache、PHP、DVWA、登录页面、Cookie、跳转到 `login.php` |
+| Pikachu | 200       | Apache、PHP、Bootstrap、jQuery、Pikachu 页面标题    |
+
+相关证据文件：
+
+```text
+scan-results/nmap/whatweb-dvwa.txt
+scan-results/nmap/whatweb-pikachu.txt
+scan-results/nmap/whatweb-dvwa.png
+scan-results/nmap/whatweb-pikachu.png
+```
+
+其中公开展示前已对敏感信息进行打码处理。
+
+### 2.7 结果分析
+
+本阶段识别结果说明：
+
+1. Kali 可以通过 HTTP 正常访问 Windows 本地靶场；
+2. DVWA 返回 `302 Found` 并跳转到登录页，符合靶场登录逻辑；
+3. Pikachu 返回 `200 OK`，首页可直接访问；
+4. 目标主机 80 端口开放，运行 Apache Web 服务；
+5. 目标主机 3306 端口开放，识别为 MySQL 服务；
+6. 443、8000、8080、8888 等端口处于 filtered 状态；
+7. HTTP 响应头和指纹识别结果暴露了 Apache、PHP、OpenSSL、phpstudy 等环境信息。
+
+需要注意的是，端口开放和服务指纹暴露不等同于漏洞成立。真实安全评估中，应结合授权范围、访问控制、服务暴露面、版本信息和业务场景进行进一步人工判断。
+
+### 2.8 后续测试映射
+
+| 发现项                      | 说明             | 后续验证方向                                |
+| ------------------------ | -------------- | ------------------------------------- |
+| 80/tcp open              | Web 服务开放       | 访问 DVWA / Pikachu，进行 Web 漏洞手工验证       |
+| DVWA 可访问                 | 返回 302 并跳转到登录页 | 登录后进行 SQL 注入、XSS、文件上传、命令执行、目录遍历、弱口令测试 |
+| Pikachu 可访问              | 返回 200 OK      | 进行越权、SSRF、CSRF、XXE、PHP 反序列化测试         |
+| 3306/tcp open            | MySQL 服务开放     | 在真实环境中应检查数据库端口是否限制访问来源                |
+| Server / X-Powered-By 可见 | 暴露 Web 服务组件信息  | 作为信息收集结果，结合版本和配置进行人工判断                |
+| phpstudy 指纹可见            | 暴露本地 Web 环境特征  | 在真实环境中应减少不必要的服务指纹暴露                   |
+
+### 2.9 小结
+
+本阶段通过 Nmap、curl 和 WhatWeb 完成了本地靶场的服务识别和 Web 指纹确认。
+
+该阶段形成的结论是：目标主机存在可访问的 Web 服务，DVWA 和 Pikachu 均可从 Kali 访问，MySQL 服务端口处于开放状态，HTTP 响应中可识别 Apache、PHP、OpenSSL 和 phpstudy 等环境信息。
+
+这些结果为后续目录扫描、SQLmap 辅助验证和手工漏洞复现提供了资产范围和基础信息。
 
 
 ## 3. 目录扫描与敏感路径识别
@@ -148,3 +302,81 @@ scan-results/dirscan/dirsearch-dvwa-path-review.png
 ### 3.9 小结
 
 本阶段通过 dirsearch 完成了 DVWA 靶场的聚焦目录扫描，并对重点路径进行了人工复核。扫描结果为后续手工漏洞验证提供了路径线索，同时体现了“工具发现线索，人工确认风险”的安全评估思路。
+
+
+## 4. SQLmap 辅助验证 SQL 注入
+
+### 4.1 测试目的
+
+在本地授权 DVWA 靶场环境中，先通过 Burp Suite 和手工测试确认 SQL 注入点，再使用 SQLmap 对同一注入点进行辅助验证，观察自动化工具对注入参数、注入类型、数据库类型和当前数据库名的识别结果。
+
+SQLmap 在本项目中仅用于本地靶场辅助验证，不用于未授权目标测试，不进行敏感数据导出。
+
+### 4.2 测试目标
+
+本次测试目标为 DVWA SQL Injection 模块中的 `id` 参数：
+
+```text
+http://192.168.5.14/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit
+```
+
+测试前已确认：
+
+* Kali 可以访问 DVWA；
+* DVWA 已登录；
+* DVWA 安全等级为 Low；
+* `id` 参数已通过手工方式验证存在 SQL 注入风险。
+
+### 4.3 测试命令
+
+实际运行时使用有效的本地靶场 Cookie。提交到项目文档时，Cookie 已进行打码处理。
+
+```text
+sqlmap -u "http://192.168.5.14/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=***; security=low" --batch --level=1 --risk=1 -p id --dbms=mysql --current-db --flush-session -o
+```
+
+### 4.4 验证结果
+
+SQLmap 识别到 GET 参数 `id` 存在 SQL 注入风险。
+
+识别到的注入类型包括：
+
+| 注入类型                | 说明         |
+| ------------------- | ---------- |
+| boolean-based blind | 布尔盲注       |
+| error-based         | 报错注入       |
+| time-based blind    | 时间盲注       |
+| UNION query         | UNION 查询注入 |
+
+SQLmap 同时识别出以下信息：
+
+| 项目       | 结果                     |
+| -------- | ---------------------- |
+| 注入参数     | `id`                   |
+| 参数位置     | GET                    |
+| 后端数据库    | MySQL                  |
+| Web 服务环境 | Windows / Apache / PHP |
+| 当前数据库    | `dvwa`                 |
+
+### 4.5 结果分析
+
+本次 SQLmap 辅助验证结果与前期手工验证结论一致：DVWA Low 模式下 SQL Injection 模块的 `id` 参数存在 SQL 注入风险。
+
+需要注意的是，SQLmap 输出结果只能作为辅助验证依据。真实安全评估中，不能只依赖工具结论，还需要结合页面响应、Burp 抓包、业务影响、数据敏感性和修复建议进行人工判断。
+
+本次测试仅获取当前数据库名 `dvwa`，未进行数据表枚举、数据导出或敏感数据读取。
+
+### 4.6 证据文件
+
+本阶段相关证据文件如下：
+
+```text
+scan-results/sqlmap/dvwa-sqli-verify.txt
+scan-results/sqlmap/sqlmap-dvwa-current-db.png
+```
+
+### 4.7 小结
+
+本阶段通过 SQLmap 对已手工确认的 SQL 注入点进行了辅助验证。工具结果进一步确认了 `id` 参数存在 SQL 注入风险，并识别出后端数据库类型和当前数据库名。
+
+该阶段体现了“手工验证为主，工具辅助复核”的安全评估思路。
