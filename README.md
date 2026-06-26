@@ -1,4 +1,4 @@
-﻿# Web 常见漏洞复现与修复实践
+# Web 常见漏洞复现与修复实践
 
 ## 项目说明
 
@@ -162,3 +162,8 @@ summary/log-risk-summary.md
 
 请勿将本项目中的测试方法用于未授权环境。
 
+
+
+## Web 攻击日志分析案例
+
+- [Web 攻击日志分析案例](notes/log-analysis-case-study.md)
