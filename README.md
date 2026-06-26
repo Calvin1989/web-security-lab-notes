@@ -31,7 +31,15 @@
 * 操作系统：Windows
 * Web 环境：小皮面板 / PHP / MySQL
 * 靶场环境：DVWA、Pikachu
-* 辅助工具：Chrome、Burp Suite
+* 辅助工具：
+	- 浏览器与抓包：Chrome、Burp Suite
+	- 靶场环境：DVWA、Pikachu
+	- 服务识别：Nmap、WhatWeb
+	- 目录枚举：dirsearch
+	- 辅助验证：SQLmap
+	- 自动化扫描：Nuclei
+	- 日志分析：Python、access-log-risk-summary.py
+	- 项目管理：Git、Markdown
 * 测试方式：本地授权靶场测试
 - 辅助工具：Nmap、dirsearch、SQLmap、Nuclei
 - 日志分析：Python、access-log-risk-summary.py
