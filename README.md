@@ -48,6 +48,7 @@
 | GitHub 项目展示说明 | [summary/github-showcase.md](summary/github-showcase.md) |
 | 工具辅助安全评估报告 | [summary/tool-assisted-assessment.md](summary/tool-assisted-assessment.md) |
 | 工具扫描结果与证据 | [scan-results/](scan-results/) |
+| 项目面试讲解稿 | [summary/interview-guide.md](summary/interview-guide.md) |
 
 ## 已完成漏洞报告
 
