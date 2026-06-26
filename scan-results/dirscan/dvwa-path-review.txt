@@ -1,0 +1,22 @@
+## login.php
+HTTP/1.1 200 OK
+Server: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+X-Powered-By: PHP/7.3.4
+Content-Type: text/html;charset=utf-8
+
+## setup.php
+HTTP/1.1 200 OK
+Server: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+X-Powered-By: PHP/7.3.4
+Content-Type: text/html;charset=utf-8
+
+## hackable/uploads/
+HTTP/1.1 403 Forbidden
+Server: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+Content-Length: 2208
+Content-Type: text/html
+
+## .dockerignore
+HTTP/1.1 200 OK
+Server: Apache/2.4.39 (Win64) OpenSSL/1.1.1b mod_fcgid/2.3.9a mod_log_rotate/1.02
+Content-Length: 80

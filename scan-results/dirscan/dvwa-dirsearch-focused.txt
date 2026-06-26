@@ -1,0 +1,16 @@
+# Dirsearch started Tue Jun 23 10:49:42 2026 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://192.168.5.14/dvwa/ -w dvwa-small-wordlist.txt -e php,txt,html,js -x 404 -o scan-results/dirscan/dvwa-dirsearch-focused.txt
+
+403     2KB  http://192.168.5.14/dvwa/tests/
+403     2KB  http://192.168.5.14/dvwa/hackable/
+200    25B   http://192.168.5.14/dvwa/robots.txt
+403     2KB  http://192.168.5.14/dvwa/.github/
+403     2KB  http://192.168.5.14/dvwa/hackable/uploads/
+200    32KB  http://192.168.5.14/dvwa/README.md
+403     2KB  http://192.168.5.14/dvwa/docs/
+403     2KB  http://192.168.5.14/dvwa/vulnerabilities/
+200    80B   http://192.168.5.14/dvwa/.dockerignore
+403     2KB  http://192.168.5.14/dvwa/config/
+403     2KB  http://192.168.5.14/dvwa/external/
+200     5KB  http://192.168.5.14/dvwa/setup.php
+200     0B   http://192.168.5.14/dvwa/config/config.inc.php
+200     1KB  http://192.168.5.14/dvwa/login.php

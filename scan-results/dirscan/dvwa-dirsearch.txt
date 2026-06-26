@@ -1,0 +1,23 @@
+# Dirsearch started Tue Jun 23 10:47:17 2026 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://192.168.5.14/dvwa/ -e php,txt,html,js -o scan-results/dirscan/dvwa-dirsearch.txt
+
+403     2KB  http://192.168.5.14/dvwa/%3f/
+403     2KB  http://192.168.5.14/dvwa/%C0%AE%C0%AE%C0%AF
+403     2KB  http://192.168.5.14/dvwa/%ff
+200    80B   http://192.168.5.14/dvwa/.dockerignore
+403     2KB  http://192.168.5.14/dvwa/.github/
+403     2KB  http://192.168.5.14/dvwa/.ht_wsr.txt
+403     2KB  http://192.168.5.14/dvwa/.htaccess.bak1
+403     2KB  http://192.168.5.14/dvwa/.htaccess.orig
+403     2KB  http://192.168.5.14/dvwa/.htaccess.sample
+403     2KB  http://192.168.5.14/dvwa/.htaccess.save
+403     2KB  http://192.168.5.14/dvwa/.htaccess_extra
+403     2KB  http://192.168.5.14/dvwa/.htaccess_orig
+403     2KB  http://192.168.5.14/dvwa/.htaccess_sc
+403     2KB  http://192.168.5.14/dvwa/.htaccessBAK
+403     2KB  http://192.168.5.14/dvwa/.htaccessOLD
+403     2KB  http://192.168.5.14/dvwa/.htaccessOLD2
+403     2KB  http://192.168.5.14/dvwa/.htm
+403     2KB  http://192.168.5.14/dvwa/.html
+403     2KB  http://192.168.5.14/dvwa/.htpasswd_test
+403     2KB  http://192.168.5.14/dvwa/.htpasswds
+403     2KB  http://192.168.5.14/dvwa/.httr-oauth
