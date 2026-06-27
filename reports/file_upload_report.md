@@ -48,9 +48,7 @@ Cookie: PHPSESSID=***; security=low
 
 截图：
 
-```text
-file_upload_burp_request
-```
+![文件上传 Burp 请求截图](../screenshots/file-upload/05-burp-upload-request.png)
 
 ### 4.2 上传类型验证
 
@@ -83,9 +81,9 @@ Content-Type: application/octet-stream
 
 截图：
 
-```text
-file_upload_response
-```
+![文件上传成功页面截图](../screenshots/file-upload/03-upload-success.png)
+
+![上传文件访问验证截图](../screenshots/file-upload/04-access-uploaded-file.png)
 
 示例响应现象：
 

@@ -40,9 +40,9 @@ Cookie: PHPSESSID=***; security=low
 
 截图：
 
-```text
-sql_injection_request
-```
+![SQL 注入正常请求 Burp 截图](../screenshots/sql-injection/05-burp-normal-request.png)
+
+![SQL 注入 payload 请求 Burp 截图](../screenshots/sql-injection/06-burp-sqli-request.png)
 
 正常请求返回单个用户信息，说明该接口的业务逻辑是根据用户编号查询用户数据。
 
@@ -78,9 +78,9 @@ sqlmap -u "http://127.0.0.1/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --coo
 
 截图：
 
-```text
-sqlmap_validation_result
-```
+![SQL 注入页面验证结果](../screenshots/sql-injection/04-sqli-result.png)
+
+![SQLmap 辅助验证结果](../scan-results/sqlmap/sqlmap-dvwa-current-db.png)
 
 SQLmap 返回结果提示 `id` 参数存在注入风险后，需要人工复核工具结论，重点确认：
 

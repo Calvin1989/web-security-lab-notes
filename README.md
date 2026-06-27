@@ -12,6 +12,10 @@
 
 项目定位是安全服务交付与 Web 安全测试实践：不只复现漏洞，也关注证据链、风险判断、整改建议和复测思路。
 
+## 当前完成情况
+
+当前已完成 11 类 Web 常见漏洞验证笔记，并针对 SQL 注入、文件上传、越权漏洞补充了较完整的安全测试报告。项目重点体现基础漏洞验证、Burp 请求分析、工具辅助检测、人工复核、修复建议和复测结论整理能力。
+
 ## 快速查看
 
 如果需要快速了解项目，可以优先查看：
@@ -71,6 +75,37 @@
 - [`sample-logs/access-demo.log`](./sample-logs/access-demo.log)
 - [`summary/log-risk-summary.md`](./summary/log-risk-summary.md)
 - [`notes/log-analysis-case-study.md`](./notes/log-analysis-case-study.md)
+
+## 目录结构
+
+```text
+web-security-lab-notes/
+├── README.md
+├── reports/
+│   ├── 01-sql-injection.md
+│   ├── 02-xss.md
+│   ├── 03-file-upload.md
+│   ├── 04-command-injection.md
+│   ├── 05-directory-traversal.md
+│   ├── 06-weak-password.md
+│   ├── 07-access-control.md
+│   ├── 08-ssrf.md
+│   ├── 09-csrf.md
+│   ├── 10-xxe.md
+│   ├── 11-deserialization.md
+│   ├── sql_injection_report.md
+│   ├── file_upload_report.md
+│   └── idor_report.md
+├── screenshots/
+│   ├── sql-injection/
+│   ├── file-upload/
+│   └── access-control/
+├── scan-results/
+├── sample-logs/
+├── summary/
+├── notes/
+└── tools/
+```
 
 ## 安全声明
 

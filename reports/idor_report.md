@@ -46,9 +46,9 @@ username=lucy
 
 截图：
 
-```text
-idor_userid_replace
-```
+![水平越权参数替换截图](../screenshots/access-control/04-horizontal-change-userid.png)
+
+![水平越权 Burp 请求截图](../screenshots/access-control/06-burp-horizontal-request.png)
 
 ### 4.2 参数替换验证
 
@@ -76,9 +76,9 @@ username=lili
 
 截图：
 
-```text
-idor_response_compare
-```
+![用户 A 信息页面截图](../screenshots/access-control/03-horizontal-user-a-info.png)
+
+![替换参数后访问用户 B 信息截图](../screenshots/access-control/05-horizontal-user-b-info.png)
 
 对比结论：
 
