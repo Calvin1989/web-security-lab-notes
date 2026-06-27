@@ -1,5 +1,13 @@
 # Web Security Lab Notes
 
+## 面试官快速了解
+
+本项目面向安全服务 / 渗透测试辅助 / 安全运营实习岗位，基于 DVWA 和 Pikachu 本地授权靶场完成 11 类 Web 常见漏洞验证，并按照安全评估报告格式整理漏洞原理、复现过程、Burp 请求证据、风险影响、修复建议和复测结论。
+
+项目额外补充 Nmap、dirsearch、SQLmap、Nuclei 等工具辅助评估流程，以及 Web access log 攻击特征分析脚本，用于体现“漏洞验证 -> 工具辅助 -> 人工复核 -> 报告交付 -> 日志研判”的基础安全服务闭环。
+
+## 项目说明
+
 本项目基于 DVWA、Pikachu 等本地授权靶场，记录 Web 常见漏洞的手工验证、Burp 抓包分析、修复建议、工具辅助评估和日志分析扩展。
 
 项目定位是安全服务交付与 Web 安全测试实践：不只复现漏洞，也关注证据链、风险判断、整改建议和复测思路。
@@ -11,7 +19,7 @@
 - [Web 系统安全评估模拟报告](./summary/web-security-assessment-report.md)：从安全服务交付角度汇总漏洞、风险和整改建议
 - [SQL 注入漏洞报告](./reports/01-sql-injection.md)：展示手工验证、Burp 抓包和复测过程
 - [文件上传漏洞报告](./reports/03-file-upload.md)：展示上传链路验证和修复建议
-- [工具辅助安全评估报告](./summary/tool-assisted-assessment.md)：展示 Nmap、dirsearch、SQLmap、Nuclei 的辅助使用和人工复核
+- [工具辅助安全评估报告](./summary/tool-assisted-assessment.md)：展示工具辅助使用和人工复核过程
 - [Web 攻击日志分析案例](./notes/log-analysis-case-study.md)：展示 access log 中攻击特征提取和安全运营研判思路
 
 ## 项目亮点
@@ -19,8 +27,7 @@
 - 覆盖 11 类常见 Web 漏洞，均限定在本地授权靶场中完成。
 - 每类漏洞按报告思路整理：漏洞现象、关键请求、风险影响、修复建议和复测结论。
 - 使用 Burp Suite 保留关键请求证据，强调手工验证与人工复核。
-- 补充 Nmap、dirsearch、SQLmap、Nuclei 的工具辅助评估流程。
-- 增加 access log 风险摘要脚本和日志分析案例，将漏洞复现延伸到安全运营研判。
+- 补充工具辅助评估、日志分析案例和风险摘要脚本，体现从漏洞验证到报告交付、日志研判的基础闭环。
 
 ## 核心交付物
 
@@ -52,18 +59,11 @@
 
 ## 工具辅助评估
 
-工具仅用于信息收集、辅助验证和结果复核，不直接替代漏洞结论。
-
-- Nmap：本地服务识别与 HTTP 指纹确认
-- dirsearch：目录枚举与敏感路径人工复核
-- SQLmap：对已手工确认的 SQL 注入点进行辅助验证
-- Nuclei：基础模板扫描与结果人工复核
-
-详细过程见 [`summary/tool-assisted-assessment.md`](./summary/tool-assisted-assessment.md)。
+工具辅助评估的详细过程已整理到 [`summary/tool-assisted-assessment.md`](./summary/tool-assisted-assessment.md)，包含本地服务识别、目录枚举、辅助验证、模板扫描结果复核和人工确认结论。
 
 ## 日志分析扩展
 
-项目补充了 `access-log-risk-summary.py`，用于从 access log 中提取 SQL 注入、XSS、目录遍历、命令执行、SSRF、XXE、反序列化等攻击特征，并生成 Markdown 风险摘要。
+项目补充了 `access-log-risk-summary.py`，用于从 access log 中提取 Web 攻击特征，并生成 Markdown 风险摘要。
 
 相关材料：
 
